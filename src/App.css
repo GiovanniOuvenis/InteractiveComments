@@ -1,3 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+
+* {
+  box-sizing: border-box;
+}
+
+body { 
+  height:100vh;
+  width:100vw;
+
+}
+
+
+  #root{
+--clr-Dark-blue: #334253;
+--clr-Grayish-blue: #67727E;
+--clr-VeryLight-gray: #F5F6FA;
+--clr-LightGray: #E9EBF0;
+--clr-ModerateBlue: #5357b6;
+--clr-LightGrayish-blue: #C5C6EF;
+--clr-SoftRed : #ED6368;
+--clr-PaleRed: #FFB8BB;
+
+--fs-Heading-Large: 1.5rem;
+--fs-Heading-Medium: 1rem;
+
+
+  height: 100%;
+  width: 100%;
+  background-color: var(--clr-VeryLight-gray);
+
+  }
+
+.avatarPic {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  background-color: black;
+}
+.backgroundLayer {
+  height: 100%;
+}
+
+.button {
+  all:unset;
+  background-color: var(--clr-ModerateBlue);
+  height: 3rem;
+  border-radius: 25px;
+  width: 30%;
+  cursor: pointer;
+  text-align: center;
+}
+
+.comments {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.heading {
+  font-size: var(--fs-Heading-Medium);
+}
+.testing {
+  background-color: #ED6368;
+  width: 10vmax;
+  height: 25vmax;
+}
+
+
+.form {
+  all: unset;
+  background-color: white;
+  border: 1px solid var(--clr-ModerateBlue);
+  border-radius: 12px;
+  height: 3rem;
+  width: 6rem;
+  font-size: 1.5rem;
+}
+.post-comment {
+  background-color: turquoise;
+  height:9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+ }
+
+ .register-forms{
+  display: flex;
+  height: 25%;
+  width: 25%;
+}
+
+.hidden {
+  display: none;
+}
+
+
+ .welcome{
+  position: absolute;
+  border: 2px solid var(--clr-ModerateBlue);
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 45%;
+  height: 45%;
+  
+}
 .App {
   text-align: center;
 }
@@ -35,4 +144,19 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+@media only screen and (max-width: 375px) {
+   .testing {
+    width: 10vmax;
+    height: 25vmax;
+  } 
+  .comments {
+    height: 100%;   
+    width: 100%;
+    background-color:pink;
+    margin-bottom: 6rem;
+  }
+ 
 }
