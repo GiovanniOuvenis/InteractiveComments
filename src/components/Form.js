@@ -2,42 +2,59 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 export default function Form(props) {
-  const [userName, setUserName] = useState("");
-  const [passWord, setPasword] = useState("");
   const usernameRef = useRef();
   const passwordRef = useRef();
+  const urlRef = useRef("http://localhost:5000/intcommapi/v1/auth/login");
+  const [userName, setUserName] = useState("");
+  const [passWord, setPasword] = useState("");
+
+  const registerurl = "http://localhost:5000/intcommapi/v1/auth/register";
+  let typeOfForm = props.derivedFrom;
+  let un = props.areaone;
+  let pw = props.areatwo;
+
+  useEffect(() => {
+    if (typeOfForm === "register") {
+      urlRef.current = registerurl;
+    }
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     let userNameToSend = userName;
     let passWordToSend = passWord;
+    props.toggleCondition(false);
     if (!userName || !passWord) {
-      console.log("state values exist");
       userNameToSend = usernameRef.current;
       passWordToSend = passwordRef.current;
     }
 
-    console.log(userNameToSend, passWordToSend);
-    // const postReq = await axios
-    //   .post("http://localhost:5000/intcommapi/v1/auth/register", {
-    //     username: usernameRef.current,
-    //     password: passWord,
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    const postReq = await axios
+      .post(urlRef.current, {
+        username: userNameToSend,
+        password: passWordToSend,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
     const keyDownHandler = (event) => {
-      let usernameValue = document.getElementById("usernameform").value;
-      let passwordValue = document.getElementById("passwordform").value;
+      const usernameValue = document.getElementById(
+        typeOfForm + "username"
+      ).value;
+      const passwordValue = document.getElementById(
+        typeOfForm + "password"
+      ).value;
+      usernameRef.current = usernameValue;
+      passwordRef.current = passwordValue;
+
       if (event.key === "Enter") {
-        usernameRef.current = usernameValue;
-        passwordRef.current = passwordValue;
         event.preventDefault();
         handleSubmit(event);
       }
@@ -48,27 +65,29 @@ export default function Form(props) {
     return () => {
       document.removeEventListener("keydown", keyDownHandler);
     };
-  }, []);
+  });
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <label>{un}</label>
         <input
           ref={usernameRef}
-          id="usernameform"
+          id={typeOfForm + un}
           type="text"
-          name="username"
+          name={un}
           value={userName}
           onChange={(event) => {
             setUserName(event.target.value);
           }}
           autoComplete="off"
         />
+        <label>{pw}</label>
         <input
           ref={passwordRef}
-          id="passwordform"
-          type="password"
-          name="password"
+          id={typeOfForm + pw}
+          type={pw}
+          name={pw}
           value={passWord}
           onChange={(event) => setPasword(event.target.value)}
           autoComplete="off"
