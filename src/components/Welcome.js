@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "./Button";
 import Form from "./Form";
+import Register from "./Register";
 import UploadImage from "./UploadImage";
 
 export default function Welcome() {
@@ -25,33 +26,15 @@ export default function Welcome() {
   };
 
   return (
-    <>
-      {condition && (
-        <div className="welcome" ref={welcomeRef}>
-          <h1 className="heading">Please register to create your account</h1>
-          <Button text="register" handler={registerClick}></Button>
-          <div className="register-forms hidden" ref={registerformRef}>
-            <UploadImage></UploadImage>
-            <Form
-              toggleCondition={getBooleanFromChild}
-              areaone="username"
-              areatwo="password"
-              derivedFrom="register"
-            ></Form>
-          </div>
-          <h1 className="heading">Login if you aready have an account</h1>
-          <Button text="login" handler={loginCLick}></Button>
-          <div className="loginform hidden" ref={loginformRef}>
-            <Form
-              toggleCondition={getBooleanFromChild}
-              areaone="username"
-              areatwo="password"
-              derivedFrom="login"
-            ></Form>
-          </div>
-        </div>
-      )}{" "}
-      {!condition && <h1>this is what happens when its true</h1>}
-    </>
+    <div className="welcome" ref={welcomeRef}>
+      <h1 className="heading">Please register to create your account</h1>
+      <Button text="register" handler={registerClick}></Button>
+      <div className="register-forms hidden" ref={registerformRef}>
+        <UploadImage></UploadImage>
+      </div>
+      {/* <h1 className="heading">Login if you aready have an account</h1>
+      <Button text="login" handler={loginCLick}></Button>
+      <div className="loginform hidden" ref={loginformRef}></div> */}
+    </div>
   );
 }
