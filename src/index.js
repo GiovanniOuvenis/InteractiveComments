@@ -7,11 +7,11 @@ import { CommentsProvider } from "./components/Context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <CommentsProvider>
-    <React.StrictMode>
+  <React.StrictMode>
+    <CommentsProvider>
       <App />
-    </React.StrictMode>
-  </CommentsProvider>
+    </CommentsProvider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

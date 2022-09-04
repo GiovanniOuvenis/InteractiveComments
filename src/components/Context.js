@@ -1,12 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const CommentsContext = React.createContext();
 
 function CommentsProvider({ children }) {
-  const [valueState, setValueState] = useState("state");
+  const [loggedInOrRegistered, setLoggedInOrRegistered] = useState(false);
+  const [userNamefromContext, setUserNameFromContext] = useState("");
+  const [picFromContext, setPicFromContext] = useState("");
+
+  const usernameFromChildComponent = (stringValue) => {
+    setUserNameFromContext(stringValue);
+  };
+
+  const getStatusFromChildComponents = (bln) => {
+    setLoggedInOrRegistered(bln);
+  };
+
+  const urlOfUserPicture = (strVal) => {
+    setPicFromContext(strVal);
+  };
 
   return (
-    <CommentsContext.Provider value={{ valueState }}>
+    <CommentsContext.Provider
+      value={{
+        handler: getStatusFromChildComponents,
+        userNameSetter: usernameFromChildComponent,
+        userPicture: urlOfUserPicture,
+        stateOfUser: loggedInOrRegistered,
+      }}
+    >
       {children}
     </CommentsContext.Provider>
   );
