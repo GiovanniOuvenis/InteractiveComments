@@ -30,7 +30,7 @@ export default function RegisterLogin(props) {
       username: userName,
       password: password,
     };
-    console.log(dataToSend);
+
     const postrequest = await axios
       .post(endpoint, dataToSend)
       .then((result) => {
