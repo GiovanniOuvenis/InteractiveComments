@@ -3,14 +3,16 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { CommentsProvider } from "./components/Context";
+import { Provider } from "react-redux";
+import commentsStore from "./store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
-    <CommentsProvider>
+    <Provider store={commentsStore}>
       <App />
-    </CommentsProvider>
+    </Provider>
   </React.StrictMode>
 );
 
