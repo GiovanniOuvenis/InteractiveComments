@@ -12,13 +12,21 @@ const initialState = {
 export const tryToLog = createAsyncThunk(
   "user/tryToLog",
   async (values, thunkAPI) => {
+    const { username, password } = values;
     let urlToUse = "http://localhost:5000/intcommapi/v1/auth/register";
     if (values.from === "login") {
       urlToUse = "http://localhost:5000/intcommapi/v1/auth/login";
     }
     try {
-      const resp = await axios.post(urlToUse, values);
+      const resp = await axios.post(
+        urlToUse,
+        JSON.stringify({ username, password }),
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       console.log(resp);
+
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("something went wrong");
@@ -38,7 +46,7 @@ const userSlice = createSlice({
     },
     imageURL: (state, { payload }) => {
       state.picturePath = payload;
-      state.isLoggedIn = true;
+      state.registered = true;
     },
   },
   extraReducers: {
@@ -48,7 +56,6 @@ const userSlice = createSlice({
     },
     [tryToLog.fulfilled]: (state, action) => {
       if (action.meta.arg.from === "login") {
-        console.log(action);
         state.isLoggedIn = true;
         state.picturePath = action.payload.image.png;
       }
