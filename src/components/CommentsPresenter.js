@@ -5,10 +5,7 @@ export default function CommentsPresenter() {
   const [comments, setComments] = useState([]);
   const ep = "http://localhost:5000/intcommapi/v1/comments";
 
-  useEffect(() => {
-    console.log(document);
-  }, []);
-
+  
   /* useEffect(() => {
     const receiveComments = async () => {
       await axios

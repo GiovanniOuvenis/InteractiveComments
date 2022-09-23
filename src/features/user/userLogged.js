@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios from "../../api/axios";
 
 const initialState = {
   registered: false,
@@ -7,15 +7,16 @@ const initialState = {
   userNameToolkit: "",
   passWordToolkit: "",
   picturePath: "",
+  accessTkn: "",
 };
 
 export const tryToLog = createAsyncThunk(
   "user/tryToLog",
   async (values, thunkAPI) => {
     const { username, password } = values;
-    let urlToUse = "http://localhost:5000/intcommapi/v1/auth/register";
+    let urlToUse = "/register";
     if (values.from === "login") {
-      urlToUse = "http://localhost:5000/intcommapi/v1/auth/login";
+      urlToUse = "/login";
     }
     try {
       const resp = await axios.post(
@@ -23,13 +24,28 @@ export const tryToLog = createAsyncThunk(
         JSON.stringify({ username, password }),
         {
           headers: { "Content-Type": "application/json" },
+          withCredentials: true,
         }
       );
-      console.log(resp);
 
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("something went wrong");
+    }
+  }
+);
+
+export const tryToRefresh = createAsyncThunk(
+  "user/tryToRefresh",
+  async (thunkAPI) => {
+    // oti kanei h refresh function
+    try {
+      const refreshResponse = await axios.get("/refresh", {
+        withCredentials: true,
+      });
+      return refreshResponse;
+    } catch (error) {
+      console.log(error);
     }
   }
 );
@@ -58,6 +74,8 @@ const userSlice = createSlice({
       if (action.meta.arg.from === "login") {
         state.isLoggedIn = true;
         state.picturePath = action.payload.image.png;
+        state.accessTkn = action.payload.accessToken;
+        console.log(state.accessTkn);
       }
       if (action.meta.arg.from === "register") {
         state.registered = true;
@@ -67,6 +85,12 @@ const userSlice = createSlice({
     [tryToLog.rejected]: (state, action) => {
       state.isLoggedIn = false;
     },
+    [tryToRefresh.pending]: (state, action) => {},
+    [tryToRefresh.fulfilled]: (state, action) => {
+      state.accessTkn = action.payload.data.accessToken;
+      console.log(state.accessTkn);
+    },
+    [tryToRefresh.rejected]: (state, action) => {},
   },
 });
 
