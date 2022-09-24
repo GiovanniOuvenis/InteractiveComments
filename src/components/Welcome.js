@@ -1,8 +1,6 @@
 import React, { useRef } from "react";
 import Button from "./Button";
 import RegisterLogin from "./RegisterLogin";
-import { Route } from "react-router-dom";
-import { Refresh } from "./Refresh";
 
 export default function Welcome() {
   const welcomeRef = useRef();
@@ -31,7 +29,6 @@ export default function Welcome() {
       <div className="loginform hidden" ref={loginformRef}>
         <RegisterLogin act="login"></RegisterLogin>
       </div>
-      <Refresh></Refresh>
     </div>
   );
 }

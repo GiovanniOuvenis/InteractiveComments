@@ -43,7 +43,8 @@ export const tryToRefresh = createAsyncThunk(
       const refreshResponse = await axios.get("/refresh", {
         withCredentials: true,
       });
-      return refreshResponse;
+
+      return refreshResponse.data;
     } catch (error) {
       console.log(error);
     }
@@ -75,7 +76,6 @@ const userSlice = createSlice({
         state.isLoggedIn = true;
         state.picturePath = action.payload.image.png;
         state.accessTkn = action.payload.accessToken;
-        console.log(state.accessTkn);
       }
       if (action.meta.arg.from === "register") {
         state.registered = true;
@@ -87,10 +87,14 @@ const userSlice = createSlice({
     },
     [tryToRefresh.pending]: (state, action) => {},
     [tryToRefresh.fulfilled]: (state, action) => {
-      state.accessTkn = action.payload.data.accessToken;
-      console.log(state.accessTkn);
+      if (!action.payload) {
+        return;
+      }
+      state.accessTkn = action.payload.accessToken;
     },
-    [tryToRefresh.rejected]: (state, action) => {},
+    [tryToRefresh.rejected]: (state, action) => {
+      console.log(state, action);
+    },
   },
 });
 
