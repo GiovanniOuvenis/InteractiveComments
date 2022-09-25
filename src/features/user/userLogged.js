@@ -91,6 +91,7 @@ const userSlice = createSlice({
         return;
       }
       state.accessTkn = action.payload.accessToken;
+      state.userNameToolkit = action.payload.un;
     },
     [tryToRefresh.rejected]: (state, action) => {
       console.log(state, action);

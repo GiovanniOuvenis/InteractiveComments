@@ -1,23 +1,33 @@
 import React, { useEffect, useState } from "react";
 import Welcome from "./Welcome";
+import { Loading } from "./Loading";
 import CommentsPresenter from "./CommentsPresenter";
 import { useSelector, useDispatch } from "react-redux";
 import { tryToRefresh } from "../features/user/userLogged";
 
 export const TopComponent = () => {
+  const [welcome, setWelcome] = useState(false);
   const [safe, setSafe] = useState(false);
-  const { accessTkn, isLoggedIn } = useSelector((store) => store.userRedux);
+  const { isLoggedIn } = useSelector((store) => store.userRedux);
   const dispatch = useDispatch();
 
   useEffect(() => {
     setSafe(isLoggedIn);
+    setWelcome(false);
   }, [isLoggedIn]);
 
   useEffect(() => {
     const handleRefresh = async () => {
       try {
         const refreshResult = dispatch(tryToRefresh()).then((resultObj) => {
-          setSafe(resultObj.payload ? true : false);
+          console.log(resultObj);
+          if (resultObj.payload) {
+            setWelcome(false);
+            setSafe(true);
+          }
+          if (!resultObj.payload) {
+            setWelcome(true);
+          }
         });
         console.log(refreshResult);
       } catch (err) {
@@ -25,16 +35,13 @@ export const TopComponent = () => {
       }
     };
     handleRefresh();
-    console.log(accessTkn);
-    if (accessTkn) {
-      setSafe(true);
-    }
   }, []);
 
   return (
     <>
-      {!safe && <Welcome></Welcome>}
+      {!safe && !welcome && <Loading></Loading>}
       {safe && <CommentsPresenter></CommentsPresenter>}
+      {welcome && <Welcome></Welcome>}
     </>
   );
 };

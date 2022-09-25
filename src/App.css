@@ -121,7 +121,11 @@ body {
   top: 25%;
   left: 25%;
 }
-
+.loading {
+  width: 45%;
+  height: 45%;
+  color: blue;
+}
  .welcome{
   position: absolute;
   border: 2px solid var(--clr-ModerateBlue);
