@@ -63,6 +63,21 @@ body {
   text-align: center;
 }
 
+.commentsPresenter {
+  height: 100%;
+  width: 100%;
+}
+
+.comment-container {
+ display: flex;
+ flex-direction: row;
+ justify-content: space-between; 
+ background-color: #ED6368;
+ height: 15%;
+ width: 50%;
+ margin: 1rem 1rem;
+}
+
 .comments {
   display: flex;
   justify-content: center;

@@ -14,9 +14,9 @@ export const tryToLog = createAsyncThunk(
   "user/tryToLog",
   async (values, thunkAPI) => {
     const { username, password } = values;
-    let urlToUse = "/register";
+    let urlToUse = "/auth/register";
     if (values.from === "login") {
-      urlToUse = "/login";
+      urlToUse = "/auth/login";
     }
     try {
       const resp = await axios.post(
@@ -40,7 +40,7 @@ export const tryToRefresh = createAsyncThunk(
   async (thunkAPI) => {
     // oti kanei h refresh function
     try {
-      const refreshResponse = await axios.get("/refresh", {
+      const refreshResponse = await axios.get("/auth/refresh", {
         withCredentials: true,
       });
 

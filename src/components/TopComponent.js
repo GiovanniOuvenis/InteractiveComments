@@ -20,7 +20,6 @@ export const TopComponent = () => {
     const handleRefresh = async () => {
       try {
         const refreshResult = dispatch(tryToRefresh()).then((resultObj) => {
-          console.log(resultObj);
           if (resultObj.payload) {
             setWelcome(false);
             setSafe(true);
@@ -29,7 +28,6 @@ export const TopComponent = () => {
             setWelcome(true);
           }
         });
-        console.log(refreshResult);
       } catch (err) {
         console.log(err);
       }

@@ -1,23 +1,38 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../api/axios";
+import Comment from "./Comment";
 
 export default function CommentsPresenter() {
-  const [comments, setComments] = useState([]);
-  const ep = "http://localhost:5000/intcommapi/v1/comments";
+  const [commentsReceived, setCommentsReceived] = useState([]);
+  const ep = "comments";
 
-  
-  /* useEffect(() => {
+  useEffect(() => {
     const receiveComments = async () => {
       await axios
         .get(ep)
         .then((commentList) => {
-          setComments(commentList.data);
+          setCommentsReceived(commentList.data.comments);
+
+          return commentsReceived;
         })
         .catch((error) => {
           console.log(error);
         });
     };
     receiveComments();
-  }, []);*/
-  return <div>CommentsPresenter</div>;
+  }, []);
+
+  return (
+    <div className="commentsPresenter">
+      {commentsReceived.map((currentComment, index) => {
+        return (
+          <Comment
+            key={index}
+            id={currentComment._id}
+            score={currentComment.score}
+          ></Comment>
+        );
+      })}
+    </div>
+  );
 }
