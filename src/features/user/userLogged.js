@@ -73,6 +73,7 @@ const userSlice = createSlice({
     },
     [tryToLog.fulfilled]: (state, action) => {
       if (action.meta.arg.from === "login") {
+        console.log(action.payload);
         state.isLoggedIn = true;
         state.picturePath = action.payload.image.png;
         state.accessTkn = action.payload.accessToken;
@@ -90,8 +91,10 @@ const userSlice = createSlice({
       if (!action.payload) {
         return;
       }
+
       state.accessTkn = action.payload.accessToken;
       state.userNameToolkit = action.payload.un;
+      state.picturePath = action.payload.pic;
     },
     [tryToRefresh.rejected]: (state, action) => {
       console.log(state, action);

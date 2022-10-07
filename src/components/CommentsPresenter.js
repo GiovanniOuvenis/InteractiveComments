@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
 import Comment from "./Comment";
+import PostComment from "./PostComment";
 
 export default function CommentsPresenter() {
   const [commentsReceived, setCommentsReceived] = useState([]);
+
   const ep = "comments";
 
   useEffect(() => {
@@ -30,9 +32,16 @@ export default function CommentsPresenter() {
             key={index}
             id={currentComment._id}
             score={currentComment.score}
+            timeStamp={currentComment.createdAt}
+            text={currentComment.content}
+            author={currentComment.authorName}
+            authorPicture={currentComment.authorPicture}
           ></Comment>
         );
       })}
+      <div>
+        <PostComment></PostComment>
+      </div>
     </div>
   );
 }
