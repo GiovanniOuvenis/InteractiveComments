@@ -8,7 +8,7 @@ const initialState = {
   passWordToolkit: "",
   picturePath: "",
   accessTkn: "",
-  trigger: 0,
+  trigger: false,
 };
 
 export const tryToLog = createAsyncThunk(
@@ -72,7 +72,7 @@ const userSlice = createSlice({
       state.isLoggedIn = true;
     },
     triggerChange: (state, { payload }) => {
-      state.trigger = payload;
+      state.trigger = !state.trigger;
     },
   },
   extraReducers: {

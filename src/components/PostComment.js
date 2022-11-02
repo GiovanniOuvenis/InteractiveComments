@@ -43,7 +43,7 @@ const PostComment = (props) => {
               }
             )
             .then((resp) => {
-              dispatch(triggerChange(Math.random()));
+              dispatch(triggerChange());
             });
         };
         const result = postText();

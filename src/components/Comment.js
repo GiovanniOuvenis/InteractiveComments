@@ -2,13 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { triggerChange } from "../features/user/userLogged";
 import axios from "../api/axios";
-//import useWindowDimensions from "../hooks/useWindowDimensions";
 import PostComment from "./PostComment";
 
 const Comment = (props) => {
   const { userNameToolkit, trigger } = useSelector((store) => store.userRedux);
   const dispatch = useDispatch();
-  //const { height, width } = useWindowDimensions();
   const [pixels, setPixels] = useState("-10000px");
   const [currentScore, setCurrentScore] = useState(0);
   const [nameToRender, setNameToRender] = useState("");
@@ -23,11 +21,28 @@ const Comment = (props) => {
 
   const popMessageRef = useRef();
 
+  const calculateTimeDifference = (createdAt) => {
+    const difference = Date.now() - createdAt;
+    const amounts = [32140800, 2678400, 604800, 86400, 3600, 60];
+    const units = ["year", "month", "week", "day", "hour", "minute"];
+    let res = "";
+    for (let i = 0; i < amounts.length; i++) {
+      let divisionResult = difference / (amounts[i] * 1000);
+      let floored = Math.floor(divisionResult);
+      if (divisionResult > 1) {
+        return floored > 1
+          ? `${floored} ${units[i]}s ago`
+          : `${floored} ${units[i]} ago`;
+      }
+    }
+    return difference;
+  };
+
   useEffect(() => {
     setCanBeDeleted(props.comment.authorName === userNameToolkit);
     setCurrentScore(props.comment.score);
     setNameToRender(props.comment.authorName);
-    setWhen(props.comment.createdAt);
+    setWhen(calculateTimeDifference(props.comment.timeInMiliseconds));
     setPic(props.comment.authorPicture);
     setWhich(props.comment._id);
     setCommentBody(props.comment.content);
@@ -58,7 +73,7 @@ const Comment = (props) => {
         )
         .then((returnedScore) => {
           setCurrentScore(returnedScore.data.score);
-          dispatch(triggerChange(Math.random()));
+          dispatch(triggerChange());
         });
     } catch (error) {
       console.log(error);
@@ -71,7 +86,7 @@ const Comment = (props) => {
     try {
       const act = await axios.delete(`/comments/${which}`).then((res) => {
         setPixels("-10000px");
-        dispatch(triggerChange(Math.random()));
+        dispatch(triggerChange());
       });
     } catch (error) {
       console.log(error);
