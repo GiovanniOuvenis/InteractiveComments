@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 import FormInput from "./FormInput";
 import UploadImage from "./UploadImage";
@@ -9,7 +9,7 @@ export default function RegisterLogin(props) {
   const { userNameToolkit, passWordToolkit, registered } = useSelector(
     (store) => store.userRedux
   );
-
+  const [message, setMessage] = useState(" ");
   const dispatch = useDispatch();
   const actionProp = props.act;
 
@@ -23,7 +23,8 @@ export default function RegisterLogin(props) {
     e.preventDefault();
     try {
       const result = await dispatch(tryToLog(dataToSend));
-
+      setMessage(result.payload);
+      console.log(message);
       return result;
     } catch (err) {
       console.log(err);
@@ -47,6 +48,7 @@ export default function RegisterLogin(props) {
         ></FormInput>
         <Button text="submit"></Button>
       </form>
+      {message.length > 1 && <div>{message}</div>}
       {registered && <UploadImage></UploadImage>}
     </div>
   );

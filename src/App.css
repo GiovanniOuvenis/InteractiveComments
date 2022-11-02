@@ -111,6 +111,11 @@ body {
 .editText {
   font-size: var(--fs-Heading-Medium);
 }
+.fakeInput {
+  all: unset;
+  border-color: #61dafb;
+  width:fit-content;
+}
 .form {
   all: unset;
   background-color: white;
@@ -124,14 +129,19 @@ body {
 .heading {
   font-size: var(--fs-Heading-Medium);
 }
-
+.hidden {
+  display: none;
+}
 
 .icons {
   width: 100%;
   display: flex;
   flex-direction: row;
 }
-
+input:placeholder-shown {
+  font-size: var(--fs-Heading-Medium);
+  color: #5357b6;
+}
 .iconsAndText {
   width: 75%;
   position: relative;
@@ -169,6 +179,14 @@ body {
   position: relative;
   z-index: 2;
 }
+.postReply {
+  background-color: antiquewhite;
+}
+.recursiveContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
  .replyText {
   font-size: var(--fs-Heading-Medium);
  }
@@ -179,7 +197,10 @@ body {
   width: 25%;
   margin-bottom: 30px;
 }
-
+.reply {
+  background-color: #ED6368;
+  width: 60%;
+}
 .replyIcon {
   height: 100%;
 }

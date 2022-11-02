@@ -1,30 +1,41 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { triggerChange } from "../features/user/userLogged";
 import axios from "../api/axios";
-import useWindowDimensions from "../hooks/useWindowDimensions";
+//import useWindowDimensions from "../hooks/useWindowDimensions";
 import PostComment from "./PostComment";
 
-export default Comment = (props) => {
-  const { userNameToolkit, picturePath } = useSelector(
-    (store) => store.userRedux
-  );
-  const { height, width } = useWindowDimensions();
+const Comment = (props) => {
+  const { userNameToolkit, trigger } = useSelector((store) => store.userRedux);
+  const dispatch = useDispatch();
+  //const { height, width } = useWindowDimensions();
   const [pixels, setPixels] = useState("-10000px");
-  const [currentScore, setCurrentScore] = useState(props.comment.score);
-  const [canBeDeleted, setCanBeDeleted] = useState(
-    props.comment.authorName === userNameToolkit
-  );
-  const [replies, setReplies] = useState(false);
+  const [currentScore, setCurrentScore] = useState(0);
+  const [nameToRender, setNameToRender] = useState("");
+  const [when, setWhen] = useState("");
+  const [pic, setPic] = useState("");
+  const [which, setWhich] = useState("");
+  const [commentBody, setCommentBody] = useState("");
+  const [canBeDeleted, setCanBeDeleted] = useState(false);
+  const [hasReplies, setHasReplies] = useState(false);
+  const [replies, setReplies] = useState([]);
   const [replyForm, setReplyForm] = useState(false);
-  const commentId = props.comment._id;
-  const authorPicture = props.comment.authorPicture;
+
   const popMessageRef = useRef();
 
   useEffect(() => {
+    setCanBeDeleted(props.comment.authorName === userNameToolkit);
+    setCurrentScore(props.comment.score);
+    setNameToRender(props.comment.authorName);
+    setWhen(props.comment.createdAt);
+    setPic(props.comment.authorPicture);
+    setWhich(props.comment._id);
+    setCommentBody(props.comment.content);
     if (props.comment.replies.length > 0) {
-      setReplies(true);
+      setHasReplies(true);
+      setReplies(props.comment.replies);
     }
-  }, []);
+  });
 
   const plusOrMinusHandler = async (e) => {
     e.preventDefault();
@@ -38,8 +49,8 @@ export default Comment = (props) => {
     try {
       const change = await axios
         .patch(
-          `/comments/${commentId}`,
-          { username: userNameToolkit, id: commentId, type: operation },
+          `/comments/${which}`,
+          { username: userNameToolkit, id: which, type: operation },
           {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
@@ -47,6 +58,7 @@ export default Comment = (props) => {
         )
         .then((returnedScore) => {
           setCurrentScore(returnedScore.data.score);
+          dispatch(triggerChange(Math.random()));
         });
     } catch (error) {
       console.log(error);
@@ -57,8 +69,9 @@ export default Comment = (props) => {
     e.preventDefault();
 
     try {
-      const act = await axios.delete(`/comments/${commentId}`).then((res) => {
-        console.log(res.status);
+      const act = await axios.delete(`/comments/${which}`).then((res) => {
+        setPixels("-10000px");
+        trigger(Math.random());
       });
     } catch (error) {
       console.log(error);
@@ -74,12 +87,11 @@ export default Comment = (props) => {
     if (messageDimensions.x > 0) {
       setPixels("-10000px");
     }
-    console.log(messageDimensions);
   };
 
   const replyHandler = async (e) => {
     e.preventDefault();
-    setReplyForm(true);
+    setReplyForm(!replyForm);
   };
 
   return (
@@ -116,14 +128,10 @@ export default Comment = (props) => {
         </div>
         <div className="iconsAndText">
           <div className="icons">
-            <img
-              src={authorPicture}
-              alt="profile picture"
-              className="authorImage"
-            />
-            <h1 className="authorName">{props.author}</h1>
+            <img src={pic} alt="profile picture" className="authorImage" />
+            <h1 className="authorName">{nameToRender}</h1>
             {canBeDeleted && <h1 className="you">You</h1>}
-            <h1 className="timestamp">{props.comment.createdAt}</h1>
+            <h1 className="timestamp">{when}</h1>
             <svg
               width="14"
               height="13"
@@ -178,7 +186,7 @@ export default Comment = (props) => {
               </div>
               <div className="buttons">
                 <button onClick={popDeleteMessage}>NO, CANCEL</button>
-                <button>YES, DELETE</button>
+                <button onClick={deleteHandler}>YES, DELETE</button>
               </div>
             </div>
 
@@ -199,10 +207,19 @@ export default Comment = (props) => {
               </>
             )}
           </div>
-          <div className="commentText">{props.comment.content}</div>
+          <div className="commentText">{commentBody}</div>
         </div>
       </div>
-      {replyForm && <PostComment commentId={props.comment._id}></PostComment>}
+      {hasReplies && (
+        <>
+          {replies.map((reply) => {
+            return <Comment comment={reply} />;
+          })}
+        </>
+      )}
+      {replyForm && <PostComment commentId={which}></PostComment>}
     </>
   );
 };
+
+export default Comment;

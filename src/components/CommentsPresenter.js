@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import axios from "../api/axios";
-import Comment from "./Comment";
-import PostComment from "./PostComment";
 import { useSelector } from "react-redux";
+
+import axios from "../api/axios";
+import PostComment from "./PostComment";
+import Comment from "./Comment";
 
 export default function CommentsPresenter() {
   const [commentsReceived, setCommentsReceived] = useState([]);
-  const [trigger, setTrigger] = useState(0);
-  const { userNameToolkit } = useSelector((store) => store.userRedux);
-
+  const { trigger } = useSelector((store) => store.userRedux);
   const ep = "comments";
 
   useEffect(() => {
@@ -16,7 +15,7 @@ export default function CommentsPresenter() {
       await axios
         .get(ep)
         .then((commentList) => {
-          setCommentsReceived(commentList.data.comments);
+          setCommentsReceived(commentList.data);
           return commentsReceived;
         })
         .catch((error) => {
@@ -26,19 +25,15 @@ export default function CommentsPresenter() {
     receiveComments();
   }, [trigger]);
 
-  const getValueFromChild = (arg) => {
-    setTrigger(arg);
-  };
-
   return (
     <div className="commentsAndPostComment">
       <div className="commentsPresenter">
         {commentsReceived.map((currentComment, index) => {
-          return <Comment key={index} comment={currentComment}></Comment>;
+          return <Comment key={index} comment={currentComment} />;
         })}
       </div>
       <div className="postCommentForm">
-        <PostComment ></PostComment>
+        <PostComment></PostComment>
       </div>
     </div>
   );

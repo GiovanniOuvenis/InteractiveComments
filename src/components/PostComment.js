@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "../api/axios";
 
@@ -7,13 +7,23 @@ const PostComment = (props) => {
     (store) => store.userRedux
   );
   const [textToSend, setTextToSend] = useState("");
+  const [idToSend, setIdToSend] = useState("");
+  const [nameOfClass, setNameOfClass] = useState("postCommentForm");
+  const trigger = props.propFunction;
+
+  useEffect(() => {
+    if (props.commentId) {
+      setNameOfClass("postReply");
+      setIdToSend(props.commentId);
+    }
+  });
 
   const postComment = (e) => {
     e.preventDefault();
     let ep = "comments";
-    console.log(props.commentId);
-    if (props.commentId) {
-      ep = `comments/${props.commentId}`;
+
+    if (idToSend.length > 0) {
+      ep = `comments/${idToSend}`;
     }
     try {
       if (textToSend.length >= 1) {
@@ -30,9 +40,7 @@ const PostComment = (props) => {
                 withCredentials: true,
               }
             )
-            .then((resp) => {
-              console.log(resp);
-            });
+            .then((resp) => {});
         };
         const result = postText();
       }
@@ -43,14 +51,16 @@ const PostComment = (props) => {
   };
 
   return (
-    <form>
+    <form className={nameOfClass} id={props.commentId}>
       <img src={picturePath} alt="logged in user" />
+
       <input
         type="text"
         onChange={(event) => {
           setTextToSend(event.target.value);
         }}
       ></input>
+
       <button className="button" type="submit" onClick={postComment}>
         send
       </button>

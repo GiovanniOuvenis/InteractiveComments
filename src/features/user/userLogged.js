@@ -8,6 +8,7 @@ const initialState = {
   passWordToolkit: "",
   picturePath: "",
   accessTkn: "",
+  trigger: 0,
 };
 
 export const tryToLog = createAsyncThunk(
@@ -30,7 +31,12 @@ export const tryToLog = createAsyncThunk(
 
       return resp.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue("something went wrong");
+      if (error.response.status === 403) {
+        return thunkAPI.rejectWithValue("Password or Username are not correct");
+      }
+      if (error.response.status === 400) {
+        return thunkAPI.rejectWithValue("Please provide username and Password");
+      }
     }
   }
 );
@@ -63,7 +69,10 @@ const userSlice = createSlice({
     },
     imageURL: (state, { payload }) => {
       state.picturePath = payload;
-      state.registered = true;
+      state.isLoggedIn = true;
+    },
+    triggerChange: (state, { payload }) => {
+      state.trigger = payload;
     },
   },
   extraReducers: {
@@ -101,6 +110,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { typedUserName, typedPassword, imageURL } = userSlice.actions;
+export const { typedUserName, typedPassword, imageURL, triggerChange } =
+  userSlice.actions;
 
 export default userSlice.reducer;
