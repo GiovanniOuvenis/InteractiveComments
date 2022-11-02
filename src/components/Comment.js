@@ -71,7 +71,7 @@ const Comment = (props) => {
     try {
       const act = await axios.delete(`/comments/${which}`).then((res) => {
         setPixels("-10000px");
-        trigger(Math.random());
+        dispatch(triggerChange(Math.random()));
       });
     } catch (error) {
       console.log(error);

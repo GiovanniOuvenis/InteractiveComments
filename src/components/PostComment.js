@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { triggerChange } from "../features/user/userLogged";
+
 import axios from "../api/axios";
 
 const PostComment = (props) => {
   const { picturePath, userNameToolkit } = useSelector(
     (store) => store.userRedux
   );
+  const dispatch = useDispatch();
   const [textToSend, setTextToSend] = useState("");
   const [idToSend, setIdToSend] = useState("");
   const [nameOfClass, setNameOfClass] = useState("postCommentForm");
-  const trigger = props.propFunction;
 
   useEffect(() => {
     if (props.commentId) {
@@ -40,7 +42,9 @@ const PostComment = (props) => {
                 withCredentials: true,
               }
             )
-            .then((resp) => {});
+            .then((resp) => {
+              dispatch(triggerChange(Math.random()));
+            });
         };
         const result = postText();
       }
