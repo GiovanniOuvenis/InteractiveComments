@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { triggerChange } from "../features/user/userLogged";
-
 import axios from "../api/axios";
 
 const PostComment = (props) => {
@@ -11,6 +10,7 @@ const PostComment = (props) => {
   const dispatch = useDispatch();
   const [textToSend, setTextToSend] = useState("");
   const [idToSend, setIdToSend] = useState("");
+
   const [nameOfClass, setNameOfClass] = useState("postCommentForm");
 
   useEffect(() => {
@@ -18,12 +18,11 @@ const PostComment = (props) => {
       setNameOfClass("postReply");
       setIdToSend(props.commentId);
     }
-  });
+  }, []);
 
   const postComment = (e) => {
     e.preventDefault();
     let ep = "comments";
-
     if (idToSend.length > 0) {
       ep = `comments/${idToSend}`;
     }
@@ -60,6 +59,7 @@ const PostComment = (props) => {
 
       <input
         type="text"
+        value={textToSend}
         onChange={(event) => {
           setTextToSend(event.target.value);
         }}

@@ -12,6 +12,7 @@ export default function CommentsPresenter() {
 
   useEffect(() => {
     const receiveComments = async () => {
+      console.log("run");
       await axios
         .get(ep)
         .then((commentList) => {

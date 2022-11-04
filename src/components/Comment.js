@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { triggerChange } from "../features/user/userLogged";
 import axios from "../api/axios";
+import EditComment from "./EditComment";
 import PostComment from "./PostComment";
 
 const Comment = (props) => {
@@ -18,14 +19,18 @@ const Comment = (props) => {
   const [hasReplies, setHasReplies] = useState(false);
   const [replies, setReplies] = useState([]);
   const [replyForm, setReplyForm] = useState(false);
+  const [editForm, setEditForm] = useState(false);
 
   const popMessageRef = useRef();
 
   const calculateTimeDifference = (createdAt) => {
     const difference = Date.now() - createdAt;
-    const amounts = [32140800, 2678400, 604800, 86400, 3600, 60];
-    const units = ["year", "month", "week", "day", "hour", "minute"];
+    const amounts = [32140800, 2678400, 604800, 86400, 3600, 60, 1];
+    const units = ["year", "month", "week", "day", "hour", "minute", "second"];
     let res = "";
+    if (difference < 1000) {
+      return "now";
+    }
     for (let i = 0; i < amounts.length; i++) {
       let divisionResult = difference / (amounts[i] * 1000);
       let floored = Math.floor(divisionResult);
@@ -35,7 +40,6 @@ const Comment = (props) => {
           : `${floored} ${units[i]} ago`;
       }
     }
-    return difference;
   };
 
   useEffect(() => {
@@ -50,7 +54,7 @@ const Comment = (props) => {
       setHasReplies(true);
       setReplies(props.comment.replies);
     }
-  });
+  }, []);
 
   const plusOrMinusHandler = async (e) => {
     e.preventDefault();
@@ -106,7 +110,14 @@ const Comment = (props) => {
 
   const replyHandler = async (e) => {
     e.preventDefault();
+
     setReplyForm(!replyForm);
+  };
+
+  const editHandler = async (e) => {
+    e.preventDefault();
+
+    setEditForm(!editForm);
   };
 
   return (
@@ -212,13 +223,19 @@ const Comment = (props) => {
                   height="14"
                   xmlns="http://www.w3.org/2000/svg"
                   className="editIcon"
+                  id="editicon"
+                  onClick={editHandler}
                 >
                   <path
                     d="M13.479 2.872 11.08.474a1.75 1.75 0 0 0-2.327-.06L.879 8.287a1.75 1.75 0 0 0-.5 1.06l-.375 3.648a.875.875 0 0 0 .875.954h.078l3.65-.333c.399-.04.773-.216 1.058-.499l7.875-7.875a1.68 1.68 0 0 0-.061-2.371Zm-2.975 2.923L8.159 3.449 9.865 1.7l2.389 2.39-1.75 1.706Z"
                     fill="#5357B6"
+                    id="editPath"
+                    onClick={editHandler}
                   />
                 </svg>
-                <h1 className="editText">edit</h1>
+                <h1 className="editText" id="editext" onClick={editHandler}>
+                  edit
+                </h1>
               </>
             )}
           </div>
@@ -232,7 +249,10 @@ const Comment = (props) => {
           })}
         </>
       )}
-      {replyForm && <PostComment commentId={which}></PostComment>}
+      {replyForm && (
+        <PostComment commentId={which} text={commentBody}></PostComment>
+      )}
+      {editForm && <EditComment commentId={which} />}
     </>
   );
 };

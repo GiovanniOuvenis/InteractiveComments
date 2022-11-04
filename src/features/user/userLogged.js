@@ -72,6 +72,7 @@ const userSlice = createSlice({
       state.isLoggedIn = true;
     },
     triggerChange: (state, { payload }) => {
+      console.log("triggered");
       state.trigger = !state.trigger;
     },
   },
