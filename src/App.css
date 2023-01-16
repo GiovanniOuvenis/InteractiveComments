@@ -1,39 +1,146 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
-
-* {
+/* Box sizing rules */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-body { 
-  height:100%;
-  width:100%;
+/* Remove default margin */
+* {
+  margin: 0;
+  padding: 0;
+  
+}
 
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+html, body {
+  height: 100%;
+}
+/* Set core body defaults */
+body {
+  background-color: var(--clr-very-light-gray);
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
 }
 
 
-  #root{
---clr-Dark-blue: #334253;
---clr-Grayish-blue: #67727E;
---clr-VeryLight-gray: #F5F6FA;
---clr-LightGray: #E9EBF0;
---clr-ModerateBlue: #5357b6;
---clr-LightGrayish-blue: #C5C6EF;
---clr-SoftRed : #ED6368;
---clr-PaleRed: #FFB8BB;
-
---fs-Heading-Large: 1.5rem;
---fs-Heading-Medium: 1rem;
 
 
-  height: 100%;
-  width: 100%;
-  background-color: var(--clr-VeryLight-gray);
+:root{
+  --clr-dark-blue: #334253;
+--clr-moderate-blue: #5357B6;
+--clr-grayish-blue:#67727E;
+--clr-very-light-gray: #F5F6FA;
+--clr-light-gray: #E9EBF0;
+--clr-white:  #FFFFFF;
+--clr-light-grayish-blue: #C5C6EF;
+--clr-soft-red: #ED6368;
+--clr-pale-red:#FFB8BB;
+--clr-backround-gray: #F2F2F2;
+
+--ff-rubik: 'Rubik', sans-serif;
+  
+--fs-medium: 16rem;
+--fs-large: 1.5rem;
+
+--fw-bold: 500;
+  
 
   }
 
+
+
+  /* CommentsPresenter  */
+  .commentsAndPostComment{    
+    margin: 4rem auto;
+    height: 100vh;    
+  }
+
+  .commentsPresenter {        
+    z-index: 1;
+    overflow:scroll;      
+  }
+
   
+
+ 
+
+ /* end of CommentsPresenter  */
+ 
+ 
+ /* comment component */
+  .comment-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+    background-color: white;
+    margin: 0.875rem auto;
+    height: 167px;
+    width: 730px;
+    
+   }
+   
+
+
+  /* end of comment component*/
   
+
+  /*post comment component */
+  .postCommentForm {
+    margin-top: 1rem;
+    position: sticky;    
+    bottom: 4rem;
+    transform: translateX(-50%);
+    left: 50%;       
+    height: 167px;
+    width: 730px;
+    background-color: var(--clr-white);
+    padding: 1.5rem 1.5rem;     
+    z-index: 2;  
+    box-shadow: 0 4rem var(--clr-very-light-gray), 0 -0.875rem var(--clr-very-light-gray);  
+  }
+
+  .postReply {
+    margin-top: 1rem;
+    position: relative;
+    transform: translateX(-50%);
+    left: 50%;   
+    height: 167px;
+    width: 730px;
+    background-color: var(--clr-white);
+    padding: 1.5rem 1.5rem;     
+    z-index: 2;  
+    }
+
+ 
+
+  /* end of post comment component */
+
+  /* delete component */
+
+  .deleteContainer {
+    height: 30vh;
+    width:30vh;
+    background-color: #61dafb;  
+    position: fixed;
+    left:50%;
+    transform: translateX(-50%);
+    z-index: 3;  
+  }
+    
+    
+
+  /* end of delete component */
 .authorImage {
   height: 25%;
   
@@ -54,6 +161,7 @@ body {
 }
 
 .button {
+  
   all:unset;
   background-color: var(--clr-ModerateBlue);
   height: 3rem;
@@ -63,42 +171,13 @@ body {
   text-align: center;
 }
 
-.commentsPresenter {
-  height: 80%;
-  width: 100%;
-  z-index: 1;
-  overflow:scroll;
-}
 
-.comment-container {
- display: flex;
- flex-direction: row;
- justify-content: space-between; 
- background-color: lightblue;
- height: 15%;
- width: 80%;
- margin: 1rem 1rem;
-}
 
-.comments {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.commentsAndPostComment{
-  display: flex;
-  flex-direction: column;  
-  height: 100vh;
-  width: 100%;
-}
-.deleteConfirmation {
-  position: absolute; 
-  background-color: wheat;
-  display: flex;
-  flex-direction: column;  
-  z-index: 3;
-  transform: translateX(-10000px);
-}
+
+
+
+
+
 
 
 .deleteIcon{
@@ -172,16 +251,8 @@ input:placeholder-shown {
   width: 20%;
  }
 
-.postCommentForm {
-  height: 15%;
-  width: 80%;
-  margin: 1rem 1rem;  
-  position: relative;
-  z-index: 2;
-}
-.postReply {
-  background-color: antiquewhite;
-}
+
+
 .recursiveContainer {
   display: flex;
   flex-direction: column;

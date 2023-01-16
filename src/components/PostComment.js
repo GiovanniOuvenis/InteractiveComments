@@ -9,43 +9,59 @@ const PostComment = (props) => {
   );
   const dispatch = useDispatch();
   const [textToSend, setTextToSend] = useState("");
-  const [idToSend, setIdToSend] = useState("");
-
-  const [nameOfClass, setNameOfClass] = useState("postCommentForm");
+  console.log(textToSend);
 
   useEffect(() => {
-    if (props.commentId) {
-      setNameOfClass("postReply");
-      setIdToSend(props.commentId);
-    }
-  }, []);
+    setTextToSend(props.text);
+    console.log(textToSend);
+  });
 
-  const postComment = (e) => {
+  const postOrUpdateComment = (e) => {
     e.preventDefault();
     let ep = "comments";
-    if (idToSend.length > 0) {
-      ep = `comments/${idToSend}`;
+    console.log(props.action);
+    if (props.action !== "SEND") {
+      ep = `comments/${props.commentId}`;
     }
     try {
-      if (textToSend.length >= 1) {
-        const postText = async () => {
-          await axios
-            .post(
-              ep,
-              {
-                username: userNameToolkit,
-                content: textToSend,
-              },
-              {
-                headers: { "Content-Type": "application/json" },
-                withCredentials: true,
-              }
-            )
-            .then((resp) => {
-              dispatch(triggerChange());
-            });
-        };
-        const result = postText();
+      const postText = async () => {
+        await axios
+          .post(
+            ep,
+            {
+              username: userNameToolkit,
+              content: textToSend,
+            },
+            {
+              headers: { "Content-Type": "application/json" },
+              withCredentials: true,
+            }
+          )
+          .then((resp) => {
+            dispatch(triggerChange());
+          });
+      };
+      const edit = async () => {
+        axios
+          .patch(
+            `/${props.commentId}`,
+            {
+              edited: textToSend,
+            },
+            {
+              headers: { "Content-Type": "application/json" },
+              withCredentials: true,
+            }
+          )
+          .then((editionResult) => {
+            dispatch(triggerChange());
+          });
+      };
+
+      if (props.action === "UPDATE") {
+        edit();
+      } else {
+        postText();
       }
       setTextToSend("");
     } catch (error) {
@@ -54,9 +70,8 @@ const PostComment = (props) => {
   };
 
   return (
-    <form className={nameOfClass} id={props.commentId}>
+    <form className="postReply" id={props.commentId}>
       <img src={picturePath} alt="logged in user" />
-
       <input
         type="text"
         value={textToSend}
@@ -65,8 +80,8 @@ const PostComment = (props) => {
         }}
       ></input>
 
-      <button className="button" type="submit" onClick={postComment}>
-        send
+      <button className="button" type="submit" onClick={postOrUpdateComment}>
+        {props.action}
       </button>
     </form>
   );

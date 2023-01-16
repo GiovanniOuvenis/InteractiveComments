@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-
 import axios from "../api/axios";
 import PostComment from "./PostComment";
 import Comment from "./Comment";
@@ -12,7 +11,6 @@ export default function CommentsPresenter() {
 
   useEffect(() => {
     const receiveComments = async () => {
-      console.log("run");
       await axios
         .get(ep)
         .then((commentList) => {
@@ -27,15 +25,15 @@ export default function CommentsPresenter() {
   }, [trigger]);
 
   return (
-    <div className="commentsAndPostComment">
-      <div className="commentsPresenter">
-        {commentsReceived.map((currentComment, index) => {
-          return <Comment key={index} comment={currentComment} />;
-        })}
+    <>
+      <div className="commentsAndPostComment">
+        <div className="commentsPresenter">
+          {commentsReceived.map((currentComment, index) => {
+            return <Comment key={index} comment={currentComment} />;
+          })}
+        </div>
+        <PostComment action={"SEND"}></PostComment>
       </div>
-      <div className="postCommentForm">
-        <PostComment></PostComment>
-      </div>
-    </div>
+    </>
   );
 }

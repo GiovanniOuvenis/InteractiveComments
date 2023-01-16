@@ -1,33 +1,30 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { triggerChange } from "../features/user/userLogged";
 import axios from "../api/axios";
-import EditComment from "./EditComment";
 import PostComment from "./PostComment";
 
 const Comment = (props) => {
-  const { userNameToolkit, trigger } = useSelector((store) => store.userRedux);
+  const { userNameToolkit } = useSelector((store) => store.userRedux);
   const dispatch = useDispatch();
-  const [pixels, setPixels] = useState("-10000px");
-  const [currentScore, setCurrentScore] = useState(0);
-  const [nameToRender, setNameToRender] = useState("");
-  const [when, setWhen] = useState("");
-  const [pic, setPic] = useState("");
-  const [which, setWhich] = useState("");
-  const [commentBody, setCommentBody] = useState("");
-  const [canBeDeleted, setCanBeDeleted] = useState(false);
-  const [hasReplies, setHasReplies] = useState(false);
-  const [replies, setReplies] = useState([]);
   const [replyForm, setReplyForm] = useState(false);
-  const [editForm, setEditForm] = useState(false);
-
-  const popMessageRef = useRef();
+  const [editOrReply, setEditOrReply] = useState("REPLY");
+  const [deleteComment, setDeleteComment] = useState(false);
+  const {
+    authorName,
+    timeInMiliseconds,
+    content,
+    authorPicture,
+    _id,
+    score,
+    replies,
+  } = props.comment;
 
   const calculateTimeDifference = (createdAt) => {
     const difference = Date.now() - createdAt;
     const amounts = [32140800, 2678400, 604800, 86400, 3600, 60, 1];
     const units = ["year", "month", "week", "day", "hour", "minute", "second"];
-    let res = "";
+
     if (difference < 1000) {
       return "now";
     }
@@ -42,20 +39,6 @@ const Comment = (props) => {
     }
   };
 
-  useEffect(() => {
-    setCanBeDeleted(props.comment.authorName === userNameToolkit);
-    setCurrentScore(props.comment.score);
-    setNameToRender(props.comment.authorName);
-    setWhen(calculateTimeDifference(props.comment.timeInMiliseconds));
-    setPic(props.comment.authorPicture);
-    setWhich(props.comment._id);
-    setCommentBody(props.comment.content);
-    if (props.comment.replies.length > 0) {
-      setHasReplies(true);
-      setReplies(props.comment.replies);
-    }
-  }, []);
-
   const plusOrMinusHandler = async (e) => {
     e.preventDefault();
     const possibleIdsPlus = ["plusSvg", "plusButton", "plusPath"];
@@ -68,15 +51,14 @@ const Comment = (props) => {
     try {
       const change = await axios
         .patch(
-          `/comments/${which}`,
-          { username: userNameToolkit, id: which, type: operation },
+          `/comments/${_id}`,
+          { username: userNameToolkit, id: _id, type: operation },
           {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
           }
         )
         .then((returnedScore) => {
-          setCurrentScore(returnedScore.data.score);
           dispatch(triggerChange());
         });
     } catch (error) {
@@ -88,9 +70,9 @@ const Comment = (props) => {
     e.preventDefault();
 
     try {
-      const act = await axios.delete(`/comments/${which}`).then((res) => {
-        setPixels("-10000px");
+      const act = await axios.delete(`/comments/${_id}`).then((res) => {
         dispatch(triggerChange());
+        setDeleteComment(!deleteComment);
       });
     } catch (error) {
       console.log(error);
@@ -99,29 +81,41 @@ const Comment = (props) => {
 
   const popDeleteMessage = (e) => {
     e.preventDefault();
-    const messageDimensions = popMessageRef.current.getBoundingClientRect();
-    if (messageDimensions.x < 0) {
-      setPixels("0px");
-    }
-    if (messageDimensions.x > 0) {
-      setPixels("-10000px");
-    }
+    setDeleteComment(!deleteComment);
   };
 
-  const replyHandler = async (e) => {
+  const editOrReplyHandler = async (e) => {
     e.preventDefault();
+    const possibleIdsReply = ["replyText", "replyIcon", "replyPath"];
+    const targetId = e.target.id;
+    let condition = possibleIdsReply.includes(targetId);
+    setEditOrReply("REPLY");
 
+    if (!condition) {
+      setEditOrReply("UPDATE");
+    }
     setReplyForm(!replyForm);
-  };
-
-  const editHandler = async (e) => {
-    e.preventDefault();
-
-    setEditForm(!editForm);
   };
 
   return (
     <>
+      {deleteComment && (
+        <div className="deleteContainer">
+          <div className="deleteMessage">
+            <h1>Delete comment</h1>
+            <p>
+              are you sure you want to delete this comment?This will remove the
+              comment and can't be undone
+            </p>
+            <button className="button" onClick={deleteHandler}>
+              Yes delete
+            </button>
+            <button className="button" onClick={popDeleteMessage}>
+              No cancel
+            </button>
+          </div>
+        </div>
+      )}
       <div className="comment-container">
         <div className="plusAndMinus">
           <button
@@ -142,7 +136,7 @@ const Comment = (props) => {
               />
             </svg>
           </button>
-          <h1 className="score">{currentScore}</h1>
+          <h1 className="score">{score}</h1>
           <button onClick={plusOrMinusHandler} className="minus button">
             <svg width="11" height="3" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -154,31 +148,37 @@ const Comment = (props) => {
         </div>
         <div className="iconsAndText">
           <div className="icons">
-            <img src={pic} alt="profile picture" className="authorImage" />
-            <h1 className="authorName">{nameToRender}</h1>
-            {canBeDeleted && <h1 className="you">You</h1>}
-            <h1 className="timestamp">{when}</h1>
+            <img src={authorPicture} className="authorImage" />
+            <h1 className="authorName">{authorName}</h1>
+            {authorName === userNameToolkit && <h1 className="you">You</h1>}
+            <h1 className="timestamp">
+              {calculateTimeDifference(timeInMiliseconds)}
+            </h1>
             <svg
               width="14"
               height="13"
               xmlns="http://www.w3.org/2000/svg"
               className="replyIcon"
               id="replyIcon"
-              onClick={replyHandler}
+              onClick={editOrReplyHandler}
             >
               <path
-                onClick={replyHandler}
+                onClick={editOrReplyHandler}
                 className="replyPath"
                 d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z"
                 fill="#5357B6"
                 id="replyPath"
               />
             </svg>
-            <h1 className="replyText" id="replyText" onClick={replyHandler}>
+            <h1
+              className="replyText"
+              id="replyText"
+              onClick={editOrReplyHandler}
+            >
               Reply
             </h1>
 
-            {canBeDeleted && (
+            {authorName === userNameToolkit && (
               <>
                 <svg
                   width="12"
@@ -200,23 +200,7 @@ const Comment = (props) => {
               </>
             )}
 
-            <div
-              className="deleteConfirmation"
-              ref={popMessageRef}
-              style={{ transform: `translateX(${pixels})` }}
-            >
-              <h1 className="deleteHeading">Delete comment</h1>
-              <div className="deleteMessage">
-                Are you sure you want to delete this comment?This will remove
-                the comment and can't be undone
-              </div>
-              <div className="buttons">
-                <button onClick={popDeleteMessage}>NO, CANCEL</button>
-                <button onClick={deleteHandler}>YES, DELETE</button>
-              </div>
-            </div>
-
-            {canBeDeleted && (
+            {authorName === userNameToolkit && (
               <>
                 <svg
                   width="14"
@@ -224,35 +208,42 @@ const Comment = (props) => {
                   xmlns="http://www.w3.org/2000/svg"
                   className="editIcon"
                   id="editicon"
-                  onClick={editHandler}
+                  onClick={editOrReplyHandler}
                 >
                   <path
                     d="M13.479 2.872 11.08.474a1.75 1.75 0 0 0-2.327-.06L.879 8.287a1.75 1.75 0 0 0-.5 1.06l-.375 3.648a.875.875 0 0 0 .875.954h.078l3.65-.333c.399-.04.773-.216 1.058-.499l7.875-7.875a1.68 1.68 0 0 0-.061-2.371Zm-2.975 2.923L8.159 3.449 9.865 1.7l2.389 2.39-1.75 1.706Z"
                     fill="#5357B6"
                     id="editPath"
-                    onClick={editHandler}
+                    onClick={editOrReplyHandler}
                   />
                 </svg>
-                <h1 className="editText" id="editext" onClick={editHandler}>
+                <h1
+                  className="editText"
+                  id="editext"
+                  onClick={editOrReplyHandler}
+                >
                   edit
                 </h1>
               </>
             )}
           </div>
-          <div className="commentText">{commentBody}</div>
+          <div className="commentText">{content}</div>
         </div>
       </div>
-      {hasReplies && (
+      {replyForm && (
+        <PostComment
+          commentId={_id}
+          action={editOrReply}
+          text={content}
+        ></PostComment>
+      )}
+      {replies.length > 0 && (
         <>
           {replies.map((reply) => {
             return <Comment comment={reply} />;
           })}
         </>
       )}
-      {replyForm && (
-        <PostComment commentId={which} text={commentBody}></PostComment>
-      )}
-      {editForm && <EditComment commentId={which} />}
     </>
   );
 };
