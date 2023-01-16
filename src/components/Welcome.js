@@ -7,26 +7,23 @@ export default function Welcome() {
   const registerformRef = useRef();
   const loginformRef = useRef();
 
-  const registerClick = (e) => {
+  const toggleVisibility = (e) => {
     e.preventDefault();
-    registerformRef.current.classList.remove("hidden");
-  };
-
-  const loginCLick = (e) => {
-    e.preventDefault();
-    loginformRef.current.classList.remove("hidden");
+    e.target.lastChild.data === "register"
+      ? registerformRef.current.classList.toggle("hidden")
+      : loginformRef.current.classList.toggle("hidden");
   };
 
   return (
     <div className="welcome" ref={welcomeRef}>
       <h1 className="heading">Please register to create your account</h1>
-      <Button text="register" handler={registerClick}></Button>
-      <div className="register-forms hidden" ref={registerformRef}>
+      <Button text="register" handler={toggleVisibility}></Button>
+      <div className="registerLogin-forms hidden" ref={registerformRef}>
         <RegisterLogin act="register"></RegisterLogin>
       </div>
       <h1 className="heading">Login if you aready have an account</h1>
-      <Button text="login" handler={loginCLick}></Button>
-      <div className="loginform hidden" ref={loginformRef}>
+      <Button text="login" handler={toggleVisibility}></Button>
+      <div className="registerLogin-forms hidden" ref={loginformRef}>
         <RegisterLogin act="login"></RegisterLogin>
       </div>
     </div>

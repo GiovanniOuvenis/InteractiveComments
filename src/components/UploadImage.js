@@ -37,8 +37,11 @@ export default function UploadImage(props) {
     <div className="uploadImage">
       <form onSubmit={setImageAction}>
         <input type="file" name="image" onChange={uploadPicture} />
-        <br />
-        <br />
+
+        <h1 className="instructions">
+          Use only .jpeg or .jpg or .png image forms
+        </h1>
+
         <button type="submit" name="upload">
           Upload
         </button>
@@ -46,50 +49,3 @@ export default function UploadImage(props) {
     </div>
   );
 }
-
-/*import React, { useState } from "react";
-
-export default function UploadImage(props) {
-  const [imageToSend, setImageToSend] = useState({});
-
-  const userNameFromProps = props.un;
-
-  const uploadPicture = (e) => {
-    setImageToSend({
-      imagePreview: URL.createObjectURL(e.target.files[0]),
-      imageAsFile: e.target.files[0],
-    });
-  };
-
-  const setImageAction = async (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append("username", userNameFromProps);
-    formData.append("image", imageToSend.imageAsFile);
-
-    const data = await fetch(
-      "http://localhost:5000/intcommapi/v1/auth/uploadpic",
-      {
-        method: "post",
-        body: formData,
-      }
-    ).then((result) => {
-      if (result.status === 201) {
-        console.log("ok image uploaded");
-      }
-    });
-  };
-
-  return (
-    <div className="uploadImage">
-      <form onSubmit={setImageAction}>
-        <input type="file" name="image" onChange={uploadPicture} />
-        <br />
-        <br />
-        <button type="submit" name="upload">
-          Upload
-        </button>
-      </form>
-    </div>
-  );
-} */

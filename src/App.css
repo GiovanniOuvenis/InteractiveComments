@@ -141,6 +141,48 @@ a:not([class]) {
     
 
   /* end of delete component */
+
+  /* welcome component */
+  .welcome{
+    position: absolute;
+    border: 5px solid var(--clr-dark-blue);
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 80vw;
+    height: 80vh;  
+  }
+
+  .heading {
+    font-size: var(--fs-Heading-Medium);
+    text-align: center;
+  }
+
+  .button {  
+    all:unset;
+    position: relative;
+    transform: translateX(-50%);
+    left: 50%;
+    background-color: var(--clr-moderate-blue);
+    height: 3rem;
+    border-radius: 10px;
+    width: 30%;    
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .registerLogin-forms{
+    display: flex;
+    position: relative;
+    transform: translateX(-50%);
+    left: 50%;
+    height: 25%;
+    width: 25%;
+    margin-bottom: 30px;
+  }
+  
+
+  /* end of welcome component */
 .authorImage {
   height: 25%;
   
@@ -160,16 +202,6 @@ a:not([class]) {
   height: 100%;
 }
 
-.button {
-  
-  all:unset;
-  background-color: var(--clr-ModerateBlue);
-  height: 3rem;
-  border-radius: 25px;
-  width: 30%;
-  cursor: pointer;
-  text-align: center;
-}
 
 
 
@@ -205,9 +237,7 @@ a:not([class]) {
   font-size: 1.5rem;
 }
 
-.heading {
-  font-size: var(--fs-Heading-Medium);
-}
+
 .hidden {
   display: none;
 }
@@ -231,8 +261,8 @@ input:placeholder-shown {
   height: 45%;
   color: blue;
 }
-.loginForm {
-  all:unset;
+.instructions {
+  font-size: 1rem;
 }
 .minus {
   height: 100%;
@@ -262,12 +292,7 @@ input:placeholder-shown {
   font-size: var(--fs-Heading-Medium);
  }
 
- .register-forms{
-  display: flex;
-  height: 25%;
-  width: 25%;
-  margin-bottom: 30px;
-}
+ 
 .reply {
   background-color: #ED6368;
   width: 60%;
@@ -307,17 +332,7 @@ input:placeholder-shown {
   left: 25%;
 }
 
- .welcome{
-  position: absolute;
-  border: 2px solid var(--clr-ModerateBlue);
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  width: 80vw;
-  height: 80vh;
-  
-  
-}
+
 
 .you {
   background-color: #5357b6;

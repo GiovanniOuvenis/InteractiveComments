@@ -31,11 +31,12 @@ export const tryToLog = createAsyncThunk(
 
       return resp.data;
     } catch (error) {
+      console.log(error.response.data);
       if (error.response.status === 403) {
-        return thunkAPI.rejectWithValue("Password or Username are not correct");
+        return thunkAPI.rejectWithValue(error.response.data.msg);
       }
       if (error.response.status === 400) {
-        return thunkAPI.rejectWithValue("Please provide username and Password");
+        return thunkAPI.rejectWithValue(error.response.data.msg);
       }
     }
   }

@@ -24,7 +24,7 @@ export default function RegisterLogin(props) {
     try {
       const result = await dispatch(tryToLog(dataToSend));
       setMessage(result.payload);
-      console.log(message);
+
       return result;
     } catch (err) {
       console.log(err);
@@ -49,7 +49,7 @@ export default function RegisterLogin(props) {
         <Button text="submit"></Button>
       </form>
       {message.length > 1 && <div>{message}</div>}
-      {registered && <UploadImage></UploadImage>}
+      <UploadImage></UploadImage>
     </div>
   );
 }

@@ -233,6 +233,7 @@ const Comment = (props) => {
       {replyForm && (
         <PostComment
           commentId={_id}
+          replyTo={authorName}
           action={editOrReply}
           text={content}
         ></PostComment>

@@ -9,12 +9,16 @@ const PostComment = (props) => {
   );
   const dispatch = useDispatch();
   const [textToSend, setTextToSend] = useState("");
-  console.log(textToSend);
 
   useEffect(() => {
-    setTextToSend(props.text);
-    console.log(textToSend);
-  });
+    if (props.action === "UPDATE") {
+      setTextToSend(props.text);
+    }
+    if (props.action === "REPLY") {
+      setTextToSend(`@${props.replyTo}`);
+    }
+    console.log(props.action);
+  }, []);
 
   const postOrUpdateComment = (e) => {
     e.preventDefault();
