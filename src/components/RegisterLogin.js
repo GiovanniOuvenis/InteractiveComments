@@ -48,8 +48,8 @@ export default function RegisterLogin(props) {
         ></FormInput>
         <Button text="submit"></Button>
       </form>
+      {registered && <UploadImage></UploadImage>}
       {message.length > 1 && <div>{message}</div>}
-      <UploadImage></UploadImage>
     </div>
   );
 }

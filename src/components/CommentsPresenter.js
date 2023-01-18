@@ -22,6 +22,7 @@ export default function CommentsPresenter() {
         });
     };
     receiveComments();
+    console.log(commentsReceived)
   }, [trigger]);
 
   return (

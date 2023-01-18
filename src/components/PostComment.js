@@ -17,7 +17,6 @@ const PostComment = (props) => {
     if (props.action === "REPLY") {
       setTextToSend(`@${props.replyTo}`);
     }
-    console.log(props.action);
   }, []);
 
   const postOrUpdateComment = (e) => {

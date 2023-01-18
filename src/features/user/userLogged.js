@@ -45,7 +45,6 @@ export const tryToLog = createAsyncThunk(
 export const tryToRefresh = createAsyncThunk(
   "user/tryToRefresh",
   async (thunkAPI) => {
-    // oti kanei h refresh function
     try {
       const refreshResponse = await axios.get("/auth/refresh", {
         withCredentials: true,
