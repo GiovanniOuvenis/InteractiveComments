@@ -11,7 +11,7 @@
 * {
   margin: 0;
   padding: 0;
-  
+  font-family: var(--ff-rubik);
 }
 
 /* Set core root defaults */
@@ -25,19 +25,12 @@ html, body {
 body {
   background-color: var(--clr-very-light-gray);
   text-rendering: optimizeSpeed;
+  
   line-height: 1.5;
 }
 
-/* A elements that don't have a class get default styles */
-a:not([class]) {
-  text-decoration-skip-ink: auto;
-}
-
-
-
-
 :root{
-  --clr-dark-blue: #334253;
+--clr-dark-blue: #334253;
 --clr-moderate-blue: #5357B6;
 --clr-grayish-blue:#67727E;
 --clr-very-light-gray: #F5F6FA;
@@ -50,64 +43,193 @@ a:not([class]) {
 
 --ff-rubik: 'Rubik', sans-serif;
   
---fs-medium: 16rem;
+--fs-medium: 1rem;
 --fs-large: 1.5rem;
 
 --fw-bold: 500;
-  
+--fw-normal: 400;
+}
 
+
+
+.loggedAvatar {
+  margin-bottom: auto;
+  vertical-align: top;
+}
+
+
+  .postReply, .postCommentForm {
+    border-radius: 8px;
   }
 
-
+  
 
   /* CommentsPresenter  */
   .commentsAndPostComment{    
-    margin: 4rem auto;
-    height: 100vh;    
+    margin: 4rem auto;       
   }
 
   .commentsPresenter {        
     z-index: 1;
-    overflow:scroll;      
+    overflow:scroll;
+    margin: 0 auto;
+    width: fit-content;    
+    
   }
-
-  
-
- 
-
  /* end of CommentsPresenter  */
  
  
  /* comment component */
-  .comment-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between; 
-    background-color: white;
-    margin: 0.875rem auto;
-    height: 167px;
-    width: 730px;
-    
-   }
-   
 
+ .authorName {
+  font-size: var(--fs-Heading-Medium);
+  font-weight: var(--fw-bold);
+  color: var(--clr-dark-blue);
+  margin: 0 1rem;
+
+}
+
+.commentText {
+  height: 4.5rem;
+  margin-top: 1rem;
+  width: 38.5rem;
+}
+
+.indented {
+  width:33rem;
+
+}
+.comment-container {     
+    background-color: white;
+    margin:0 auto 1.25rem auto;
+    padding: 1.5rem 1.5rem;
+    height: fit-content;
+    width: fit-content;    
+}
+
+.comment-container.alignRight {
+  margin-left: auto;
+  margin-right: 0;
+}
+ 
+
+.icons {
+  display: flex;
+  align-items: center;
+  height: 2rem;
+}
+
+.iconsAndText {
+   display: inline-block;   
+}
+
+.plusAndMinus {
+    display: inline-block; 
+    margin-right: 1.5rem;
+    vertical-align: top;
+    background-color: var(--clr-very-light-gray);
+    border-radius: 10px;
+    width: 2.5rem;
+    height: 6.25rem;
+   }
+
+   .plusMinus {
+    all: unset;
+    margin: 0 auto;
+    width: 100%;
+    height: 33.3%;
+   }
+
+
+
+.reply {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.replyText {
+  margin-left: 0.5rem;
+  font-size: var(--fs-medium);
+  font-weight: var(--fw-bold);
+  color: var(--clr-moderate-blue);
+  transition: color 1s;
+
+}
+.replyPath {
+  transition: color 1s;
+}
+.replyText:hover {
+ color: var(--clr-light-grayish-blue);
+  cursor: pointer;
+}
+.replyPath:hover {
+  color: var(--clr-light-grayish-blue);
+  cursor: pointer;
+}
+.score {
+    color: var(--clr-moderate-blue);
+    font-size: var(--fs-medium);
+    font-weight: var(--fw-bold);
+    text-align: center;
+    height: 33.3%;
+  }
+
+
+  .svg {
+    padding: 0.625rem 0.625rem;
+  }
+
+  .timestamp {
+    font-size: var(--fs-Heading-Medium);
+    font-weight: var(--fw-normal);
+    color: var(--clr-grayish-blue);
+  }
+
+  .you {
+    background-color: var(--clr-moderate-blue);
+    color: white;
+    text-align: center;
+    font-size: var(--fs-Heading-Medium);
+    display: inline-block;
+    margin-left: 0.5rem;
+    width: 2rem;
+    font-size: 0.8125rem;
+    font-weight: var(--fw-bold);
+  }
 
   /* end of comment component*/
   
 
   /*post comment component */
   .postCommentForm {
-    margin-top: 1rem;
+    margin: 0 auto;
     position: sticky;    
     bottom: 4rem;
-    transform: translateX(-50%);
-    left: 50%;       
-    height: 167px;
-    width: 730px;
+    width: fit-content;    
     background-color: var(--clr-white);
     padding: 1.5rem 1.5rem;     
     z-index: 2;  
     box-shadow: 0 4rem var(--clr-very-light-gray), 0 -0.875rem var(--clr-very-light-gray);  
+  }
+  .input {    
+    border: 1px solid var(--clr-light-gray);
+    color: var(--clr-grayish-blue);    
+    text-align: left;
+    height: 6rem;
+    min-width: 31rem;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    margin: 0 1rem;    
+    font-weight: var(--fw-normal);
+    font-size: var(--fs-medium);
+    resize: none;
+  }
+
+  .input:focus {
+    color: var(--clr-dark-blue);
+    resize: none;
+    outline: none;
   }
 
   .postReply {
@@ -137,6 +259,15 @@ a:not([class]) {
     transform: translateX(-50%);
     z-index: 3;  
   }
+
+
+.deleteIcon{
+  border: #5357b6 solid 3px;
+}
+
+.deleteText {
+  font-size: var(--fs-Heading-Medium);
+}
     
     
 
@@ -159,17 +290,22 @@ a:not([class]) {
   }
 
   .button {  
-    all:unset;
-    position: relative;
-    transform: translateX(-50%);
-    left: 50%;
-    background-color: var(--clr-moderate-blue);
+    all:unset; 
+    
+    color: var(--clr-white);   
     height: 3rem;
-    border-radius: 10px;
-    width: 30%;    
+    width: 6.5rem;
+    background-color: var(--clr-moderate-blue);    
+    border-radius: 8px;   
     cursor: pointer;
     text-align: center;
+    vertical-align: top;
   }
+
+  .button:hover {
+    background-color: var(--clr-light-grayish-blue);
+  }
+  
 
   .registerLogin-forms{
     display: flex;
@@ -183,42 +319,10 @@ a:not([class]) {
   
 
   /* end of welcome component */
-.authorImage {
-  height: 25%;
-  
-}
-
-.authorName {
-  font-size: var(--fs-Heading-Medium);
-}
-
-.avatarPic {
-  height: 2rem;
-  width: 2rem;
-  border-radius: 50%;
-  background-color: black;
-}
-.backgroundLayer {
-  height: 100%;
-}
 
 
 
 
-
-
-
-
-
-
-
-.deleteIcon{
-  border: #5357b6 solid 3px;
-}
-
-.deleteText {
-  font-size: var(--fs-Heading-Medium);
-}
 .editText {
   font-size: var(--fs-Heading-Medium);
 }
@@ -242,19 +346,7 @@ a:not([class]) {
   display: none;
 }
 
-.icons {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-}
-input:placeholder-shown {
-  font-size: var(--fs-Heading-Medium);
-  color: #5357b6;
-}
-.iconsAndText {
-  width: 75%;
-  position: relative;
-}
+
 
 .loading {
   width: 45%;
@@ -264,60 +356,9 @@ input:placeholder-shown {
 .instructions {
   font-size: 1rem;
 }
-.minus {
-  height: 100%;
-  width: 20%;
- }
- 
- .plusAndMinus {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  width: 25%;
- }
-
- .plus {
-  height: 100%;
-  width: 20%;
- }
-
-
-
-.recursiveContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
- .replyText {
-  font-size: var(--fs-Heading-Medium);
- }
 
  
-.reply {
-  background-color: #ED6368;
-  width: 60%;
-}
-.replyIcon {
-  height: 100%;
-}
 
-.replyPath {
-  height: 100%;
-}
-.score {
-  height: 20%;
-  width: 100%;
-}
-
-.testing {
-  background-color: #ED6368;
-  width: 10vmax;
-  height: 25vmax;
-}
-
-.timestamp {
-  font-size: var(--fs-Heading-Medium);
-}
 .hidden {
   display: none;
 }
@@ -334,19 +375,9 @@ input:placeholder-shown {
 
 
 
-.you {
-  background-color: #5357b6;
-  color: white;
-  font-size: var(--fs-Heading-Medium);
-}
-.App {
-  text-align: center;
-}
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -354,20 +385,9 @@ input:placeholder-shown {
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
 
-.App-link {
-  color: #61dafb;
-}
+
+
 
 @keyframes App-logo-spin {
   from {

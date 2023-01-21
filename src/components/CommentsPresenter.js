@@ -22,7 +22,7 @@ export default function CommentsPresenter() {
         });
     };
     receiveComments();
-    console.log(commentsReceived)
+    console.log(commentsReceived);
   }, [trigger]);
 
   return (
@@ -33,7 +33,10 @@ export default function CommentsPresenter() {
             return <Comment key={index} comment={currentComment} />;
           })}
         </div>
-        <PostComment action={"SEND"}></PostComment>
+        <PostComment
+          action={"SEND"}
+          nameOfClass="postCommentForm"
+        ></PostComment>
       </div>
     </>
   );

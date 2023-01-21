@@ -17,6 +17,9 @@ const PostComment = (props) => {
     if (props.action === "REPLY") {
       setTextToSend(`@${props.replyTo}`);
     }
+    if (props.action === "SEND") {
+      setTextToSend("Add a comment...");
+    }
   }, []);
 
   const postOrUpdateComment = (e) => {
@@ -73,15 +76,16 @@ const PostComment = (props) => {
   };
 
   return (
-    <form className="postReply" id={props.commentId}>
-      <img src={picturePath} alt="logged in user" />
-      <input
+    <form className={props.nameOfClass} id={props.commentId}>
+      <img className="loggedAvatar" src={picturePath} alt="logged in user" />
+      <textarea
+        className="input"
         type="text"
         value={textToSend}
         onChange={(event) => {
           setTextToSend(event.target.value);
         }}
-      ></input>
+      ></textarea>
 
       <button className="button" type="submit" onClick={postOrUpdateComment}>
         {props.action}
