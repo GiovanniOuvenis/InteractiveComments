@@ -7,8 +7,11 @@ const initialState = {
   userNameToolkit: "",
   passWordToolkit: "",
   picturePath: "",
+  pictureBig: "",
   accessTkn: "",
   trigger: false,
+  deleteComment: false,
+  commentToDelete: "",
 };
 
 export const tryToLog = createAsyncThunk(
@@ -68,12 +71,17 @@ const userSlice = createSlice({
       state.passWordToolkit = payload;
     },
     imageURL: (state, { payload }) => {
-      state.picturePath = payload;
+      state.picturePath = payload.small;
+      state.pictureBig = payload.big;
       state.isLoggedIn = true;
     },
     triggerChange: (state, { payload }) => {
       console.log("triggered");
       state.trigger = !state.trigger;
+    },
+    deleteRequest: (state, { payload }) => {
+      state.deleteComment = !state.deleteComment;
+      state.commentToDelete = payload;
     },
   },
   extraReducers: {
@@ -84,7 +92,7 @@ const userSlice = createSlice({
     [tryToLog.fulfilled]: (state, action) => {
       if (action.meta.arg.from === "login") {
         state.isLoggedIn = true;
-        state.picturePath = action.payload.image.png;
+        state.picturePath = action.payload.image.big;
         state.accessTkn = action.payload.accessToken;
       }
       if (action.meta.arg.from === "register") {
@@ -103,7 +111,7 @@ const userSlice = createSlice({
       state.isLoggedIn = true;
       state.accessTkn = action.payload.accessToken;
       state.userNameToolkit = action.payload.un;
-      state.picturePath = action.payload.pic;
+      state.picturePath = action.payload.pic.big;
     },
     [tryToRefresh.rejected]: (state, action) => {
       console.log(state, action);
@@ -111,7 +119,12 @@ const userSlice = createSlice({
   },
 });
 
-export const { typedUserName, typedPassword, imageURL, triggerChange } =
-  userSlice.actions;
+export const {
+  typedUserName,
+  typedPassword,
+  imageURL,
+  triggerChange,
+  deleteRequest,
+} = userSlice.actions;
 
 export default userSlice.reducer;

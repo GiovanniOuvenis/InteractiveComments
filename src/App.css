@@ -25,7 +25,7 @@ html, body {
 body {
   background-color: var(--clr-very-light-gray);
   text-rendering: optimizeSpeed;
-  
+
   line-height: 1.5;
 }
 
@@ -55,25 +55,31 @@ body {
 .loggedAvatar {
   margin-bottom: auto;
   vertical-align: top;
+  margin-right: 1rem;
 }
+
+
 
 
   .postReply, .postCommentForm {
     border-radius: 8px;
+
   }
 
   
 
   /* CommentsPresenter  */
   .commentsAndPostComment{    
-    margin: 4rem auto;       
+    margin: 4rem auto;     
   }
+
+  
 
   .commentsPresenter {        
     z-index: 1;
     overflow:scroll;
     margin: 0 auto;
-    width: fit-content;    
+    max-width: 735px; 
     
   }
  /* end of CommentsPresenter  */
@@ -95,23 +101,48 @@ body {
   width: 38.5rem;
 }
 
+.comment-container {
+  height: fit-content;
+  width: fit-content;   
+  background-color: var(--clr-white);  
+  padding: 1.5rem 1.5rem;
+}
+
+.wrapper {           
+    background-color:var(--clr-very-light-gray);
+    margin:0 auto 1.125rem auto;
+}
+
+
+
+
 .indented {
-  width:33rem;
-
-}
-.comment-container {     
-    background-color: white;
-    margin:0 auto 1.25rem auto;
-    padding: 1.5rem 1.5rem;
-    height: fit-content;
-    width: fit-content;    
+  width: 33rem; 
 }
 
-.comment-container.alignRight {
-  margin-left: auto;
+
+
+.replyComment {  
   margin-right: 0;
+  margin-bottom: 0;  
+  padding-bottom: 1.25rem;
+  margin-left: 2.6875rem;
+  padding-left: 2.6875rem;  
+  border-left: 2px solid var(--clr-light-gray);
 }
- 
+
+
+.lastComment {
+  padding-bottom: 0;
+  margin-bottom: 1.25rem;
+}
+
+
+
+
+
+  
+
 
 .icons {
   display: flex;
@@ -123,29 +154,37 @@ body {
    display: inline-block;   
 }
 
+
+
+
 .plusAndMinus {
     display: inline-block; 
     margin-right: 1.5rem;
     vertical-align: top;
     background-color: var(--clr-very-light-gray);
-    border-radius: 10px;
-    width: 2.5rem;
-    height: 6.25rem;
+    border-radius: 10px;   
+    width: fit-content; 
    }
 
    .plusMinus {
-    all: unset;
-    margin: 0 auto;
-    width: 100%;
-    height: 33.3%;
+    all: unset;    
+    padding: 0 0.875rem;    
+    margin-bottom: 0.3525rem;
+    
    }
+
+.plus {
+  margin-top: 0.3525rem;
+}
+
+
 
 
 
 .reply {
   display: flex;
   align-items: center;
-  margin-left: auto;
+  
 }
 
 .replyText {
@@ -170,20 +209,19 @@ body {
 .score {
     color: var(--clr-moderate-blue);
     font-size: var(--fs-medium);
-    font-weight: var(--fw-bold);
+    font-weight: var(--fw-bold);    
     text-align: center;
-    height: 33.3%;
+    padding: 0.3525rem 0;
   }
 
 
-  .svg {
-    padding: 0.625rem 0.625rem;
-  }
+
 
   .timestamp {
     font-size: var(--fs-Heading-Medium);
     font-weight: var(--fw-normal);
     color: var(--clr-grayish-blue);
+    margin-right: auto;
   }
 
   .you {
@@ -217,10 +255,10 @@ body {
     color: var(--clr-grayish-blue);    
     text-align: left;
     height: 6rem;
-    min-width: 31rem;
+    min-width: 31.625rem;
     border-radius: 8px;
     padding: 0.75rem 1.5rem;
-    margin: 0 1rem;    
+    margin-right:1rem;    
     font-weight: var(--fw-normal);
     font-size: var(--fs-medium);
     resize: none;
@@ -233,16 +271,17 @@ body {
   }
 
   .postReply {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
+    width: fit-content;
     position: relative;
-    transform: translateX(-50%);
-    left: 50%;   
-    height: 167px;
-    width: 730px;
+    transform: translateX(-50%) translateY(-0.5rem);
+    left: 50%;       
     background-color: var(--clr-white);
     padding: 1.5rem 1.5rem;     
-    z-index: 2;  
+    margin-bottom: 0.75rem;
     }
+
+
 
  
 
@@ -250,24 +289,78 @@ body {
 
   /* delete component */
 
-  .deleteContainer {
-    height: 30vh;
-    width:30vh;
-    background-color: #61dafb;  
+  .deleteContainer { 
+    width: fit-content;  
+    padding: 2rem 2rem;
+    background-color: var(--clr-white);  
     position: fixed;
+    inset: 0;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+   /* top: 50%;
     left:50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-50%);*/
     z-index: 3;  
+    border-radius: 8px;
+    box-shadow: 10px 10px 0 1200px rgba(0, 0, 0, 0.5) ;
+/*-50px -20px 0 900px rgb(51, 66, 83, 0.5)*/
+              
   }
 
+  .deleteheader {
+    font-size: var(--fs-large);
+    font-weight: var(--fw-bold);
+    line-height: 1.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .deletemessage {
+   width: 21rem;
+   font-size: var(--fs-medium);
+   font-weight: var(--fw-normal);
+   margin-bottom: 1.25rem ;
+  }
 
 .deleteIcon{
-  border: #5357b6 solid 3px;
+  margin-right: 0.5rem;;
+  
 }
 
 .deleteText {
   font-size: var(--fs-Heading-Medium);
+  color: var(--clr-soft-red);
+  transition: color  2s;
+  
 }
+.deleteText:hover {
+  color: var(--clr-pale-red);
+  cursor: pointer;
+}
+
+.deleteIcon {
+  background-color: var(--clr-soft-red);
+  transition: color  2s;
+
+}
+
+.deleteIcon:hover {
+  background-color: var(--clr-pale-red);
+  cursor: pointer;
+}
+
+
+.deletePath {
+  background-color: var(--clr-soft-red);
+  transition: color  2s;
+
+}
+
+.deletePath:hover {
+  color: var(--clr-pale-red);
+  cursor: pointer;
+}
+
     
     
 
@@ -290,8 +383,7 @@ body {
   }
 
   .button {  
-    all:unset; 
-    
+    all:unset;     
     color: var(--clr-white);   
     height: 3rem;
     width: 6.5rem;
@@ -302,9 +394,25 @@ body {
     vertical-align: top;
   }
 
-  .button:hover {
-    background-color: var(--clr-light-grayish-blue);
+  .no {
+    width: 10rem;
+    background-color: var(--clr-grayish-blue);
+    margin-right: auto; 
+    font-weight: var(--fw-bold);
+
   }
+
+  .yes {
+    width: 10rem;
+    background-color: var(--clr-soft-red);
+    font-weight: var(--fw-bold);
+
+  }
+
+ .buttons {
+  display: flex;
+  
+ }
   
 
   .registerLogin-forms{
@@ -320,11 +428,19 @@ body {
 
   /* end of welcome component */
 
-
-
+.emptyRectangle {
+  
+  background-color: #ED6368;
+  
+}
+.editIcon {
+  margin-left: 2rem;
+}
 
 .editText {
   font-size: var(--fs-Heading-Medium);
+  margin-left: 0.5rem;
+  color: var(--clr-moderate-blue);
 }
 .fakeInput {
   all: unset;
@@ -359,9 +475,7 @@ body {
 
  
 
-.hidden {
-  display: none;
-}
+
 
 .uploadImage {
   height: 200px;
