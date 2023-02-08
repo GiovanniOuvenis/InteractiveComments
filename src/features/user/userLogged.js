@@ -7,7 +7,6 @@ const initialState = {
   userNameToolkit: "",
   passWordToolkit: "",
   picturePath: "",
-  pictureBig: "",
   accessTkn: "",
   trigger: false,
   deleteComment: false,
@@ -72,7 +71,7 @@ const userSlice = createSlice({
     },
     imageURL: (state, { payload }) => {
       state.picturePath = payload.small;
-      state.pictureBig = payload.big;
+
       state.isLoggedIn = true;
     },
     triggerChange: (state, { payload }) => {

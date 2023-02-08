@@ -24,6 +24,7 @@ export const DeleteComment = () => {
         .delete(`/comments/${commentToDelete}`)
         .then((res) => {
           dispatch(triggerChange());
+          dispatch(deleteRequest());
           deleteContainerRef.current.classList.toggle("hidden");
         });
     } catch (error) {
@@ -38,7 +39,7 @@ export const DeleteComment = () => {
   };
 
   return (
-    <div className="deleteContainer hidden" ref={deleteContainerRef}>
+    <div className="deleteContainer hidden brer" ref={deleteContainerRef}>
       <h1 className="deleteheader">Delete comment</h1>
       <p className="deletemessage">
         Are you sure you want to delete this comment?This will remove the

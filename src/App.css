@@ -25,7 +25,6 @@ html, body {
 body {
   background-color: var(--clr-very-light-gray);
   text-rendering: optimizeSpeed;
-
   line-height: 1.5;
 }
 
@@ -42,106 +41,125 @@ body {
 --clr-backround-gray: #F2F2F2;
 
 --ff-rubik: 'Rubik', sans-serif;
-  
+
 --fs-medium: 1rem;
 --fs-large: 1.5rem;
 
 --fw-bold: 500;
 --fw-normal: 400;
+
+}
+
+/* global */
+.button {
+  all:unset;
+  color: var(--clr-white);
+  height: 3rem;
+  width: 6.5rem;
+  background-color: var(--clr-moderate-blue);
+  cursor: pointer;
+  text-align: center;
+  vertical-align: top;
+
 }
 
 
+
+.buttons {
+display: flex;
+}
+
+
+/* end of global */
 
 .loggedAvatar {
-  margin-bottom: auto;
   vertical-align: top;
-  margin-right: 1rem;
 }
 
 
 
+/* CommentsPresenter  */
+.commentsAndPostComment{
+  margin: 4rem auto;
+}
 
-  .postReply, .postCommentForm {
-    border-radius: 8px;
-
-  }
-
-  
-
-  /* CommentsPresenter  */
-  .commentsAndPostComment{    
-    margin: 4rem auto;     
-  }
-
-  
-
-  .commentsPresenter {        
-    z-index: 1;
-    overflow:scroll;
-    margin: 0 auto;
-    max-width: 735px; 
-    
-  }
+.commentsPresenter {
+  overflow: scroll;
+  margin: 0 auto;
+  width: fit-content;
+ }
  /* end of CommentsPresenter  */
- 
- 
+
  /* comment component */
 
- .authorName {
-  font-size: var(--fs-Heading-Medium);
-  font-weight: var(--fw-bold);
-  color: var(--clr-dark-blue);
-  margin: 0 1rem;
 
-}
 
-.commentText {
-  height: 4.5rem;
-  margin-top: 1rem;
-  width: 38.5rem;
-}
 
-.comment-container {
-  height: fit-content;
-  width: fit-content;   
-  background-color: var(--clr-white);  
+
+.container {
+  background-color: var(--clr-white);
   padding: 1.5rem 1.5rem;
-}
-
-.wrapper {           
-    background-color:var(--clr-very-light-gray);
-    margin:0 auto 1.125rem auto;
+  width: fit-content;
 }
 
 
 
 
-.indented {
-  width: 33rem; 
+
+
+.deleteText:hover {
+  color: var(--clr-pale-red);
+  cursor: pointer;
 }
 
 
 
-.replyComment {  
+.deleteIcon:hover {
+  cursor: pointer;
+}
+
+
+
+.deletePath:hover {
+  cursor: pointer;
+}
+
+.replyContent {
+  max-width: 33.125rem;
+}
+
+.replySectionItem {
   margin-right: 0;
-  margin-bottom: 0;  
+  margin-bottom: 0;
   padding-bottom: 1.25rem;
   margin-left: 2.6875rem;
-  padding-left: 2.6875rem;  
+  padding-left: 2.6875rem;
   border-left: 2px solid var(--clr-light-gray);
 }
 
 
-.lastComment {
-  padding-bottom: 0;
-  margin-bottom: 1.25rem;
+.replySectionContainer {
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+
+}
+
+.indentation {
+  border: 1px var(--clr-light-gray) solid;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
 
 
 
-  
+
+.iconsAndText {
+   display: inline-block;
+
+}
 
 
 .icons {
@@ -150,32 +168,74 @@ body {
   height: 2rem;
 }
 
-.iconsAndText {
-   display: inline-block;   
+
+
+.authorName {
+  font-size: var(--fs-Heading-Medium);
+  font-weight: var(--fw-bold);
+  color: var(--clr-dark-blue);
+
 }
+
+.timestamp {
+  font-size: var(--fs-Heading-Medium);
+  font-weight: var(--fw-normal);
+  color: var(--clr-grayish-blue);
+ margin-right: auto;
+}
+
+.deleteIcon{
+  margin-right: 0.5rem;
+}
+
+.deleteText {
+  font-size: var(--fs-Heading-Medium);
+  color: var(--clr-soft-red);
+  transition: color  2s;
+}
+
+.editText {
+  font-size: var(--fs-Heading-Medium);
+  margin-left: 0.5rem;
+  color: var(--clr-moderate-blue);
+}
+
+.commentText {
+  height: 4.5rem;
+  margin-top: 1rem;
+  width: 38.5rem;
+}
+
+
+
 
 
 
 
 .plusAndMinus {
-    display: inline-block; 
-    margin-right: 1.5rem;
+    display: inline-block;
     vertical-align: top;
     background-color: var(--clr-very-light-gray);
-    border-radius: 10px;   
-    width: fit-content; 
+    border-radius: 10px;
+    width: fit-content;
+    padding: 0.5rem;
    }
 
    .plusMinus {
-    all: unset;    
-    padding: 0 0.875rem;    
-    margin-bottom: 0.3525rem;
-    
+    all: unset;
+    padding: 0 0.375rem;
    }
 
-.plus {
-  margin-top: 0.3525rem;
+   .score {
+    color: var(--clr-moderate-blue);
+    font-size: var(--fs-medium);
+    font-weight: var(--fw-bold);
+    text-align: center;
+    padding-top: 0.625rem;
+    padding-bottom: 0.17rem;
 }
+
+
 
 
 
@@ -184,7 +244,6 @@ body {
 .reply {
   display: flex;
   align-items: center;
-  
 }
 
 .replyText {
@@ -193,7 +252,6 @@ body {
   font-weight: var(--fw-bold);
   color: var(--clr-moderate-blue);
   transition: color 1s;
-
 }
 .replyPath {
   transition: color 1s;
@@ -206,23 +264,12 @@ body {
   color: var(--clr-light-grayish-blue);
   cursor: pointer;
 }
-.score {
-    color: var(--clr-moderate-blue);
-    font-size: var(--fs-medium);
-    font-weight: var(--fw-bold);    
-    text-align: center;
-    padding: 0.3525rem 0;
-  }
 
 
 
 
-  .timestamp {
-    font-size: var(--fs-Heading-Medium);
-    font-weight: var(--fw-normal);
-    color: var(--clr-grayish-blue);
-    margin-right: auto;
-  }
+
+
 
   .you {
     background-color: var(--clr-moderate-blue);
@@ -237,32 +284,26 @@ body {
   }
 
   /* end of comment component*/
-  
+
 
   /*post comment component */
-  .postCommentForm {
-    margin: 0 auto;
-    position: sticky;    
-    bottom: 4rem;
-    width: fit-content;    
-    background-color: var(--clr-white);
-    padding: 1.5rem 1.5rem;     
-    z-index: 2;  
-    box-shadow: 0 4rem var(--clr-very-light-gray), 0 -0.875rem var(--clr-very-light-gray);  
-  }
-  .input {    
+
+
+  .input {
     border: 1px solid var(--clr-light-gray);
-    color: var(--clr-grayish-blue);    
+    color: var(--clr-grayish-blue);
     text-align: left;
-    height: 6rem;
-    min-width: 31.625rem;
-    border-radius: 8px;
     padding: 0.75rem 1.5rem;
-    margin-right:1rem;    
+    margin-right:1rem;
     font-weight: var(--fw-normal);
     font-size: var(--fs-medium);
+    height: 6rem;
     resize: none;
   }
+
+
+
+
 
   .input:focus {
     color: var(--clr-dark-blue);
@@ -270,99 +311,72 @@ body {
     outline: none;
   }
 
+
+
+  .fullsize {
+    min-width: 31.625rem;
+  }
+
+  .replysize {
+    width: 26.125rem;
+
+  }
+
   .postReply {
     margin-top: 0.5rem;
-    width: fit-content;
+    margin-bottom: 0.75rem;
     position: relative;
     transform: translateX(-50%) translateY(-0.5rem);
-    left: 50%;       
-    background-color: var(--clr-white);
-    padding: 1.5rem 1.5rem;     
-    margin-bottom: 0.75rem;
+    left: 50%;
     }
-
-
-
- 
 
   /* end of post comment component */
 
   /* delete component */
 
-  .deleteContainer { 
-    width: fit-content;  
+.deleteContainer {
+    width: fit-content;
     padding: 2rem 2rem;
-    background-color: var(--clr-white);  
+    background-color: var(--clr-white);
     position: fixed;
     inset: 0;
     margin: auto;
     width: fit-content;
     height: fit-content;
-   /* top: 50%;
-    left:50%;
-    transform: translateX(-50%) translateY(-50%);*/
-    z-index: 3;  
-    border-radius: 8px;
-    box-shadow: 10px 10px 0 1200px rgba(0, 0, 0, 0.5) ;
-/*-50px -20px 0 900px rgb(51, 66, 83, 0.5)*/
-              
-  }
+    z-index: 3;
+    box-shadow: 10px 10px 0 1200px rgba(0, 0, 0, 0.5);
 
-  .deleteheader {
-    font-size: var(--fs-large);
-    font-weight: var(--fw-bold);
-    line-height: 1.75rem;
-    margin-bottom: 1.25rem;
-  }
 
-  .deletemessage {
+}
+
+.deleteheader {
+  font-size: var(--fs-large);
+  font-weight: var(--fw-bold);
+  line-height: 1.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.deletemessage {
    width: 21rem;
    font-size: var(--fs-medium);
    font-weight: var(--fw-normal);
    margin-bottom: 1.25rem ;
-  }
-
-.deleteIcon{
-  margin-right: 0.5rem;;
-  
 }
 
-.deleteText {
-  font-size: var(--fs-Heading-Medium);
-  color: var(--clr-soft-red);
-  transition: color  2s;
-  
-}
-.deleteText:hover {
-  color: var(--clr-pale-red);
-  cursor: pointer;
+.no {
+  width: 10rem;
+  background-color: var(--clr-grayish-blue);
+  margin-right: auto;
+  font-weight: var(--fw-bold);
+
 }
 
-.deleteIcon {
+.yes {
+  width: 10rem;
   background-color: var(--clr-soft-red);
-  transition: color  2s;
-
+  font-weight: var(--fw-bold);
 }
 
-.deleteIcon:hover {
-  background-color: var(--clr-pale-red);
-  cursor: pointer;
-}
-
-
-.deletePath {
-  background-color: var(--clr-soft-red);
-  transition: color  2s;
-
-}
-
-.deletePath:hover {
-  color: var(--clr-pale-red);
-  cursor: pointer;
-}
-
-    
-    
 
   /* end of delete component */
 
@@ -374,46 +388,11 @@ body {
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
     width: 80vw;
-    height: 80vh;  
+    height: 80vh;
   }
 
-  .heading {
-    font-size: var(--fs-Heading-Medium);
-    text-align: center;
-  }
 
-  .button {  
-    all:unset;     
-    color: var(--clr-white);   
-    height: 3rem;
-    width: 6.5rem;
-    background-color: var(--clr-moderate-blue);    
-    border-radius: 8px;   
-    cursor: pointer;
-    text-align: center;
-    vertical-align: top;
-  }
 
-  .no {
-    width: 10rem;
-    background-color: var(--clr-grayish-blue);
-    margin-right: auto; 
-    font-weight: var(--fw-bold);
-
-  }
-
-  .yes {
-    width: 10rem;
-    background-color: var(--clr-soft-red);
-    font-weight: var(--fw-bold);
-
-  }
-
- .buttons {
-  display: flex;
-  
- }
-  
 
   .registerLogin-forms{
     display: flex;
@@ -424,29 +403,19 @@ body {
     width: 25%;
     margin-bottom: 30px;
   }
-  
+
+  .heading {
+    font-size: var(--fs-Heading-Medium);
+    text-align: center;
+  }
+
+
 
   /* end of welcome component */
 
-.emptyRectangle {
-  
-  background-color: #ED6368;
-  
-}
-.editIcon {
-  margin-left: 2rem;
-}
 
-.editText {
-  font-size: var(--fs-Heading-Medium);
-  margin-left: 0.5rem;
-  color: var(--clr-moderate-blue);
-}
-.fakeInput {
-  all: unset;
-  border-color: #61dafb;
-  width:fit-content;
-}
+
+
 .form {
   all: unset;
   background-color: white;
@@ -462,8 +431,6 @@ body {
   display: none;
 }
 
-
-
 .loading {
   width: 45%;
   height: 45%;
@@ -472,10 +439,6 @@ body {
 .instructions {
   font-size: 1rem;
 }
-
- 
-
-
 
 .uploadImage {
   height: 200px;
@@ -488,20 +451,39 @@ body {
 }
 
 
+.mr-1r {
+  margin-right: 1rem;
+}
 
+.mt-20 {
+  margin-top: 1.25rem;
+}
 
+.mr-1ahr{
+  margin-right: 1.5rem;
+}
 
+.brer {
+ border-radius: 8px;
+}
 
+.mt-8 {
+  margin-top: 0.5rem;
+}
+
+.postnewcomment {
+  margin: 0 auto;
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  box-shadow: 0 -0.875rem var(--clr-very-light-gray);
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
-
-
-
 
 @keyframes App-logo-spin {
   from {
@@ -512,17 +494,15 @@ body {
   }
 }
 
-
 @media only screen and (max-width: 375px) {
    .testing {
     width: 10vmax;
     height: 25vmax;
-  } 
+  }
   .comments {
-    height: 100%;   
+    height: 100%;
     width: 100%;
     background-color:pink;
     margin-bottom: 6rem;
   }
- 
 }

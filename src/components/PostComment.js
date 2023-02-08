@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { triggerChange } from "../features/user/userLogged";
 import axios from "../api/axios";
@@ -9,18 +9,22 @@ const PostComment = (props) => {
   );
   const dispatch = useDispatch();
   const [textToSend, setTextToSend] = useState("");
+  const inputRef = useRef();
+  const formRef = useRef();
 
   useEffect(() => {
-    if (props.action === "UPDATE") {
-      setTextToSend(props.text);
-    }
-    if (props.action === "REPLY") {
-      setTextToSend(`@${props.replyTo}`);
-    }
+    setTextToSend(`@${props.replyTo}`);
     if (props.action === "SEND") {
-      setTextToSend("Add a comment...");
+      formRef.current.classList.add("postnewcomment");
+      inputRef.current.classList.add("fullsize");
     }
   }, []);
+
+  useEffect(() => {
+    !props.fullSize
+      ? inputRef.current.classList.add("replysize")
+      : inputRef.current.classList.add("fullsize");
+  });
 
   const postOrUpdateComment = (e) => {
     e.preventDefault();
@@ -76,18 +80,26 @@ const PostComment = (props) => {
   };
 
   return (
-    <form className={props.nameOfClass} id={props.commentId}>
-      <img className="loggedAvatar" src={picturePath} alt="logged in user" />
+    <form className="container brer mt-8" id={props.commentId} ref={formRef}>
+      <img
+        className="loggedAvatar mr-1r"
+        src={picturePath}
+        alt="logged in user"
+      />
       <textarea
-        className="input"
+        className="input brer"
+        ref={inputRef}
         type="text"
         value={textToSend}
         onChange={(event) => {
           setTextToSend(event.target.value);
         }}
       ></textarea>
-
-      <button className="button" type="submit" onClick={postOrUpdateComment}>
+      <button
+        className="button brer"
+        type="submit"
+        onClick={postOrUpdateComment}
+      >
         {props.action}
       </button>
     </form>

@@ -10,8 +10,6 @@ export default function CommentsPresenter() {
   const { trigger } = useSelector((store) => store.userRedux);
   const ep = "comments";
 
-  
-
   useEffect(() => {
     const receiveComments = async () => {
       await axios
@@ -43,10 +41,7 @@ export default function CommentsPresenter() {
             );
           })}
         </div>
-        <PostComment
-          action={"SEND"}
-          nameOfClass="postCommentForm"
-        ></PostComment>
+        <PostComment action={"SEND"}></PostComment>
       </div>
     </>
   );
