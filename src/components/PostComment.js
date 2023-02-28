@@ -15,6 +15,7 @@ const PostComment = (props) => {
   useEffect(() => {
     setTextToSend(`@${props.replyTo}`);
     if (props.action === "SEND") {
+      setTextToSend("");
       formRef.current.classList.add("postnewcomment");
       inputRef.current.classList.add("fullsize");
     }
@@ -26,53 +27,32 @@ const PostComment = (props) => {
       : inputRef.current.classList.add("fullsize");
   });
 
-  const postOrUpdateComment = (e) => {
+  const postComment = (e) => {
     e.preventDefault();
     let ep = "comments";
-    console.log(props.action);
-    if (props.action !== "SEND") {
+    if (props.action) {
       ep = `comments/${props.commentId}`;
     }
-    try {
-      const postText = async () => {
-        await axios
-          .post(
-            ep,
-            {
-              username: userNameToolkit,
-              content: textToSend,
-            },
-            {
-              headers: { "Content-Type": "application/json" },
-              withCredentials: true,
-            }
-          )
-          .then((resp) => {
-            dispatch(triggerChange());
-          });
-      };
-      const edit = async () => {
-        axios
-          .patch(
-            `/${props.commentId}`,
-            {
-              edited: textToSend,
-            },
-            {
-              headers: { "Content-Type": "application/json" },
-              withCredentials: true,
-            }
-          )
-          .then((editionResult) => {
-            dispatch(triggerChange());
-          });
-      };
+    const postOrReplyText = async () => {
+      await axios
+        .post(
+          ep,
+          {
+            username: userNameToolkit,
+            content: textToSend,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        )
+        .then((resp) => {
+          dispatch(triggerChange());
+        });
+    };
 
-      if (props.action === "UPDATE") {
-        edit();
-      } else {
-        postText();
-      }
+    try {
+      postOrReplyText();
       setTextToSend("");
     } catch (error) {
       console.log(error);
@@ -95,11 +75,7 @@ const PostComment = (props) => {
           setTextToSend(event.target.value);
         }}
       ></textarea>
-      <button
-        className="button brer"
-        type="submit"
-        onClick={postOrUpdateComment}
-      >
+      <button className="button brer" type="submit" onClick={postComment}>
         {props.action}
       </button>
     </form>

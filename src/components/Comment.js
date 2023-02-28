@@ -12,6 +12,8 @@ const Comment = (props) => {
   const [indentation, setIndentation] = useState(false);
   const [hasReplies, setHasReplies] = useState(false);
   const [replyForm, setReplyForm] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [editedText, setEditedText] = useState("");
 
   const {
     authorName,
@@ -24,6 +26,7 @@ const Comment = (props) => {
   } = props.comment;
 
   useEffect(() => {
+    setEditedText(content);
     if (replies.length > 0 && props.rootComment === true) {
       setIndentation(true);
     }
@@ -33,7 +36,7 @@ const Comment = (props) => {
     if (props.typeOfComment) {
       contentRef.current.classList.add("replyContent");
     }
-  });
+  }, []);
 
   const calculateTimeDifference = (createdAt) => {
     const difference = Date.now() - createdAt;
@@ -81,14 +84,45 @@ const Comment = (props) => {
     }
   };
 
-  const editOrReplyHandler = async (e) => {
+  const replyHandler = async (e) => {
     e.preventDefault();
     setReplyForm(!replyForm);
+  };
+
+  const editHandler = async (e) => {
+    e.preventDefault();
+    setEdit(!edit);
   };
 
   const popDeleteMessage = (e) => {
     e.preventDefault();
     dispatch(deleteRequest(e.target.attributes.label.value));
+  };
+
+  const updateComment = (e) => {
+    e.preventDefault();
+    const update = async () => {
+      axios
+        .patch(
+          `/${_id}`,
+          {
+            edited: editedText,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        )
+        .then((editionResult) => {
+          dispatch(triggerChange());
+          setEdit(!edit);
+        });
+    };
+    try {
+      update();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -150,21 +184,17 @@ const Comment = (props) => {
                   xmlns="http://www.w3.org/2000/svg"
                   className="replyIcon"
                   id="replyIcon"
-                  onClick={editOrReplyHandler}
+                  onClick={replyHandler}
                 >
                   <path
-                    onClick={editOrReplyHandler}
+                    onClick={replyHandler}
                     className="replyPath"
                     d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z"
                     fill="#5357B6"
                     id="replyPath"
                   />
                 </svg>
-                <h1
-                  className="replyText"
-                  id="replyText"
-                  onClick={editOrReplyHandler}
-                >
+                <h1 className="replyText" id="replyText" onClick={replyHandler}>
                   Reply
                 </h1>
               </div>
@@ -206,26 +236,42 @@ const Comment = (props) => {
                   xmlns="http://www.w3.org/2000/svg"
                   className="editIcon"
                   id="editicon"
-                  onClick={editOrReplyHandler}
+                  onClick={editHandler}
                 >
                   <path
                     d="M13.479 2.872 11.08.474a1.75 1.75 0 0 0-2.327-.06L.879 8.287a1.75 1.75 0 0 0-.5 1.06l-.375 3.648a.875.875 0 0 0 .875.954h.078l3.65-.333c.399-.04.773-.216 1.058-.499l7.875-7.875a1.68 1.68 0 0 0-.061-2.371Zm-2.975 2.923L8.159 3.449 9.865 1.7l2.389 2.39-1.75 1.706Z"
                     fill="#5357B6"
                     id="editPath"
-                    onClick={editOrReplyHandler}
+                    onClick={editHandler}
                   />
                 </svg>
-                <h1
-                  className="editText"
-                  id="editext"
-                  onClick={editOrReplyHandler}
-                >
+                <h1 className="editText" id="editext" onClick={editHandler}>
                   Edit
                 </h1>
               </>
             )}
           </div>
-          <p className="commentText">{content}</p>
+          {!edit && <p className="commentText">{content}</p>}
+          {edit && (
+            <>
+              <textarea
+                className="input brer fullsize"
+                type="text"
+                value={editedText}
+                onChange={(event) => {
+                  setEditedText(event.target.value);
+                  console.log(event.target.value);
+                }}
+              ></textarea>
+              <button
+                className="button brer"
+                type="submit"
+                onClick={updateComment}
+              >
+                UPDATE
+              </button>
+            </>
+          )}
         </div>
       </div>
 

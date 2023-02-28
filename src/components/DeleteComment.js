@@ -46,11 +46,11 @@ export const DeleteComment = () => {
         comment and can't be undone
       </p>
       <div className="buttons">
-        <button className="button no" onClick={cancelDelete}>
-          No cancel
+        <button className="button no brer" onClick={cancelDelete}>
+          NO, CANCEL
         </button>
-        <button className="button yes" onClick={deleteHandler}>
-          Yes delete
+        <button className="button yes brer" onClick={deleteHandler}>
+          YES, DELETE
         </button>
       </div>
     </div>
